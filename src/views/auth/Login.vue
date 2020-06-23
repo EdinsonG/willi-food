@@ -1,21 +1,23 @@
-<template class="prueba">
+<template>
   <v-card class="elevation-1 pa-3 login-card">
     <v-card-text>
       <v-layout align-center justify-center column fill-height>
-        <img src="/static/willi-food.svg" alt="Vue Material Admin" width="200" height="120" />
+        <img src="/static/willi-food.svg" alt="willi-food-img" width="200" height="120" />
         <h1 class="my-4 secondary--text display-1">Admin</h1>
       </v-layout>
       <!-- <v-alert type="error" dense outlined class="notification is-danger" v-if="error">
           {{error}}
       </v-alert>-->
 
-      <v-form>
+      <v-form ref="form" v-model="valid" :lazy-validation="lazy">
         <v-text-field
           append-icon="person"
-          name="login"
-          label="Login"
+          name="email"
+          label="Correo electrónico"
           type="text"
-          v-model="model.username"
+          v-model="model.email"
+          :rules="model.emailRules"
+          required
         ></v-text-field>
         <v-text-field
           append-icon="lock"
@@ -24,6 +26,7 @@
           id="password"
           type="password"
           v-model="model.password"
+          :rules="model.passwordRules"
         ></v-text-field>
 
         <!-- <v-btn icon>
@@ -41,7 +44,7 @@
             <span class="red--text">{{ error }}</span>
           </div>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" @click="login" :loading="loading">Login</v-btn>
+          <v-btn color="secondary" @click="login" :loading="loading" :disabled="!valid">Login</v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -67,24 +70,34 @@
 import axios from 'axios'
 export default {
   data: () => ({
+    error: '',
+    valid: true,
     dialog: false,
     loading: false,
     model: {
-      username: 'xenag67252@unomail9.com',
-      password: '12345678',
+      email: '',
+      emailRules: [
+        v => !!v || 'Correo electrónico es requerido',
+        v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
+      ],
+      password: '',
+      passwordRules: [
+        v => !!v || 'La contraseña es requerida',
+      ],
     },
+    lazy: false,
   }),
   methods: {
     getLogin() {
       axios
         .post('http://auth.malllikeu.com/api/auth/login', {
-          email: this.model.username,
+          email: this.model.email,
           password: this.model.password,
         })
         .then((response) => {
           let accessToken = response.data.access_token
-          localStorage.setItem('token', accessToken)
-          console.log(response.data.access_token)
+          localStorage.setItem('token',accessToken)
+          // console.log(accessToken)
           this.$router.push('/dashboard')
         })
         .catch((error) => {

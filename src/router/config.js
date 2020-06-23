@@ -62,6 +62,7 @@ export const protectedRoute = [
           title: 'Home',
           group: 'apps',
           icon: 'dashboard',
+          requiresAuth: true,
         },
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
       },
@@ -71,6 +72,7 @@ export const protectedRoute = [
           title: 'Media',
           group: 'apps',
           icon: 'media',
+          requiresAuth: true,
         },
         name: 'Media',
         props: (route) => ({
@@ -85,6 +87,7 @@ export const protectedRoute = [
           title: 'Task',
           group: 'apps',
           icon: 'media',
+          requiresAuth: true,
         },
         name: 'Task',
         props: (route) => ({
@@ -98,6 +101,7 @@ export const protectedRoute = [
         meta: {
           title: 'Access Denied',
           hiddenInMenu: true,
+          requiresAuth: true,
         },
         component: () => import(/* webpackChunkName: "error-403" */ '@/views/error/Deny.vue'),
       },
@@ -113,6 +117,7 @@ export const protectedRoute = [
       title: 'CMS',
       icon: 'view_compact',
       group: 'cms',
+      requiresAuth: true,
     },
     children: [
       {

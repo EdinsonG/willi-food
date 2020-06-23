@@ -14,8 +14,17 @@ const router = new Router({
 // router gards
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  //auth route is authenticated
+  // if (to.meta.requiresAuth) {
+  //   const authUser = JSON.parse(window.localStorage.getItem('authUser'))
+    
+  //   if (authUser && authUser.access_token) {
+  //     next()
+  //   } else {
+  //     next({name: 'login'})
+  //   }
+  // }
   next()
+
 })
 
 router.afterEach(() => {

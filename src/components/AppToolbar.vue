@@ -2,6 +2,21 @@
   <v-app-bar color="primary" dark app>
     <v-app-bar-nav-icon @click="handleDrawerToggle" />
     <v-spacer />
+    <v-row justify="center">
+      <v-dialog v-model="dialog" max-width="400">
+        <v-card>
+          <v-card-title class="headline">Error</v-card-title>
+
+          <v-card-text>En estos momentos no podemos atender tu solicitud. Vuelva a intentarlo</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="green darken-1" text @click="dialog = false">Aceptar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
     <v-toolbar-items>
       <v-btn text href="mailto:wangqiangshen@gmail.com">Hire Me</v-btn>
       <v-btn icon href="https://github.com/tookit/vue-material-admin">
@@ -100,6 +115,7 @@ export default {
           click: this.handleLogout,
         },
       ],
+      dialog: false,
     }
   },
   computed: {
@@ -131,30 +147,23 @@ export default {
     },
 
     getLogout() {
+      let varToken = localStorage.getItem('token')
       config.headers.Authorization = 'Bearer ' + varToken
-      console.log(config.headers)
+      // console.log(config.headers)
       axios
         .get('http://auth.malllikeu.com/api/auth/logout', config)
         .then((response) => {
-          console.log(response.data)
+          localStorage.removeItem('token')
+          delete axios.defaults.headers.common['Authorization']
           this.$router.push('/login')
         })
         .catch((error) => {
           if (error.response) {
             switch (error.response.status) {
               case 401:
-              case 422:
-                this.error = 'Usuario o contraseña incorrecta'
-                // console.log('response status: ' + error.response.status)
-                // console.log('response data:')
-                // console.log(error.response.data)
-                // console.log('Incorrect login or password')
-                break
               default:
-                this.dialog = true
-                // this.error = error.response.data
+                this.dialog = true;                
                 // console.log(error)
-                // console.log('En estos momentos no podemos atender tu solicitud')
                 break
             }
           }

@@ -15,11 +15,12 @@ import '@mdi/font/css/materialdesignicons.css'
 
 Vue.config.productionTip = false
 
+window.axios=axios
 const token = localStorage.getItem('token')
 
 axios.defaults.baseURL = "http://auth.malllikeu.com/api";
-axios.defaults.headers.common['Authorization'] = "Bearer " +token;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 
 const app = new Vue({
   router,

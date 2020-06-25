@@ -20,7 +20,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .login
-  background-image: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7) ), url("https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/25/15614775255199.jpg") !important
+  background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7) ), url("../../assets/login_background-min.jpg") !important
   background-repeat: no-repeat !important
   background-size: cover !important
   background-position: center !important

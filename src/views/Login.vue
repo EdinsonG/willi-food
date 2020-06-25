@@ -67,7 +67,7 @@ export default {
     handleLogin() {
       this.loading = true
       setTimeout(() => {
-        this.$router.push('/dashboard')
+        this.$router.push('/estadisticas')
       }, 1000)
     },
   },

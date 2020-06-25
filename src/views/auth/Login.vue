@@ -75,12 +75,12 @@ export default {
     dialog: false,
     loading: false,
     model: {
-      email: '',
+      email: 'xenag67252@unomail9.com',
       emailRules: [
         v => !!v || 'Correo electrónico es requerido',
         v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
       ],
-      password: '',
+      password: '12345678',
       passwordRules: [
         v => !!v || 'La contraseña es requerida',
       ],
@@ -98,7 +98,7 @@ export default {
           let accessToken = response.data.access_token
           localStorage.setItem('token',accessToken)
           // console.log(accessToken)
-          this.$router.push('/dashboard')
+          this.$router.push('/estadisticas')
         })
         .catch((error) => {
           if (error.response) {

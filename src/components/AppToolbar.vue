@@ -18,22 +18,22 @@
       </v-dialog>
     </v-row>
     <v-toolbar-items>
-      <v-btn text href="mailto:wangqiangshen@gmail.com">Hire Me</v-btn>
+      <!-- <v-btn text href="mailto:wangqiangshen@gmail.com">Hire Me</v-btn>
       <v-btn icon href="https://github.com/tookit/vue-material-admin">
         <v-icon class="fa-2x">fa-github</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-btn icon @click="handleFullScreen()">
         <v-icon>fullscreen</v-icon>
       </v-btn>
       <v-menu offset-y origin="center center" class="elelvation-1" transition="scale-transition">
-        <template v-slot:activator="{ on }">
+        <!-- <template v-slot:activator="{ on }">
           <v-btn icon text slot="activator" v-on="on">
             <v-badge color="red" overlap>
               <span slot="badge">3</span>
               <v-icon medium>notifications</v-icon>
             </v-badge>
           </v-btn>
-        </template>
+        </template> -->
         <notification-list></notification-list>
       </v-menu>
       <v-menu offset-y origin="center center" transition="scale-transition">
@@ -77,7 +77,6 @@
   </v-app-bar>
 </template>
 <script>
-var varToken
 var config = {
   headers: {
      "Content-Type": 'application/json',
@@ -96,22 +95,22 @@ export default {
   data() {
     return {
       profileMenus: [
-        {
-          icon: 'account_circle',
-          href: '#',
-          title: 'Profile',
-          click: this.handleProfile,
-        },
+        // {
+        //   icon: 'account_circle',
+        //   href: '#',
+        //   title: 'Perfil',
+        //   click: this.handleProfile,
+        // },
         {
           icon: 'settings',
           href: '#',
-          title: 'Settings',
+          title: 'Configuración',
           click: this.handleSetting,
         },
         {
           icon: 'fullscreen_exit',
           href: '#',
-          title: 'Logout',
+          title: 'Cerrar sesión',
           click: this.handleLogout,
         },
       ],
@@ -125,11 +124,11 @@ export default {
     breadcrumbs() {
       const items = [
         {
-          text: 'Home',
+          text: 'Inicio',
           to: { path: '/' },
         },
       ]
-      if (['/', '/dashboard'].includes(this.$route.path) === false) {
+      if (['/', '/estadisticas'].includes(this.$route.path) === false) {
         items.push({
           text: this.$route.meta.title,
           to: { path: this.$route.path },
@@ -153,6 +152,8 @@ export default {
       axios
         .get('http://auth.malllikeu.com/api/auth/logout', config)
         .then((response) => {
+          response
+          
           localStorage.removeItem('token')
           delete axios.defaults.headers.common['Authorization']
           this.$router.push('/login')

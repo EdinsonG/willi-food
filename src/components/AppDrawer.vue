@@ -10,13 +10,13 @@
     <v-toolbar color="primary darken-1" dark>
       <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
       <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">Vue Material</span>
+        <span class="hidden-sm-and-down">Administardor</span>
       </v-toolbar-title>
     </v-toolbar>
-    <div class="pa-3">
-      <v-subheader>Sponsor</v-subheader>
-      <a href="https://www.nsdftth.com">
-        <img src="https://www.nsdftth.com/logo.png" alt="NSD" height="72" />
+    <div class="pa-1">
+      <!-- <v-subheader>Sponsor</v-subheader> -->
+      <a href="/estadisticas">
+        <img src="/static/willi-food.svg" alt="NSD" width="250" />
       </a>
     </div>
     <v-list expand dense v-if="items" nav>
@@ -31,6 +31,7 @@
           :subtext="item.subtext"
           :text="item.text"
           :to="item.to"
+          :disabled="item.disabled"
         />
       </template>
     </v-list>

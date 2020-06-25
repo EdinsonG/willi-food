@@ -461,15 +461,15 @@ const Messages = [
 ]
 
 // Add user to map
-Messages.map(item => {
-  let tmp = User().find(x => x.uuid === item.userId)
-  item.user = {
-    uuid: tmp.uuid,
-    name: tmp.name,
-    avatar: tmp.avatar,
-  }
-  return item
-})
+// Messages.map(item => {
+//   let tmp = User().find(x => x.uuid === item.userId)
+//   item.user = {
+//     uuid: tmp.uuid,
+//     name: tmp.name,
+//     avatar: tmp.avatar,
+//   }
+//   return item
+// })
 
 // add messages to group
 Groups.map(item => {

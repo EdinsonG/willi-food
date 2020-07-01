@@ -1,4 +1,4 @@
-import { AuthLayout, DefaultLayout, ChatLayout } from '@/components/layouts'
+import { AuthLayout, DefaultLayout } from '@/components/layouts'
 
 export const publicRoute = [
   {
@@ -69,7 +69,7 @@ export const protectedRoute = [
       {
         path: '/cuentas-bancarias',
         meta: {
-          title: 'Cuentas',
+          title: 'BankAccounts',
           group: 'apps',
           icon: 'BankAccounts',
           requiresAuth: true,
@@ -78,7 +78,7 @@ export const protectedRoute = [
         props: (route) => ({
           type: route.query.type,
         }),
-        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/Cuentas.vue'),
+        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/BankAccounts.vue'),
       },
       // {
       //   path: '/media',
@@ -123,6 +123,30 @@ export const protectedRoute = [
   },
 
   //list
+  {
+    path: '/sucursales',
+    component: DefaultLayout,
+    meta: {
+      title: 'sucursales',
+      icon: 'local_convenience_store',
+      group: 'advance',
+    },
+    redirect: '/sucursales/mis-sucursales',
+    children: [
+      {
+        path: '/sucursales/mis-sucursales',
+        name: 'Branches',
+        meta: {
+          title: 'Mis sucursales',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "chart-widget" */ '@/views/MyBranches.vue'),
+      },
+    ],
+  },
+
   // {
   //   path: '/cms',
   //   component: DefaultLayout,

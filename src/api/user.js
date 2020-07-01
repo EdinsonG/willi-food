@@ -2,6 +2,9 @@ const Items = [
   {
     uuid: '65a6eb21-67b5-45c3-9af7-faca2d9b60d4',
     id: '1',
+    name_product: 'Gamma Lore',
+    cost: '100',
+    status: 'Activo',
     name_bank: 'Ward Bank Group',
     account_number: '53935821329489604584',
     city: 'Watsea',
@@ -28,6 +31,9 @@ const Items = [
   {
     uuid: '28d9f265-74d7-4f85-83d4-6a21fca57dcf',
     id: '2',
+    name_product: 'Pasta Accesos',
+    cost: '200',
+    status: 'Activo',
     name_bank: 'Monolith Bank System',
     account_number: '45567255301063298634',
     city: 'roni',

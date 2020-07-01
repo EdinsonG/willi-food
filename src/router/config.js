@@ -142,7 +142,31 @@ export const protectedRoute = [
         props: (route) => ({
           type: route.query.type,
         }),
-        component: () => import(/* webpackChunkName: "chart-widget" */ '@/views/MyBranches.vue'),
+        component: () => import(/* webpackChunkName: "my-branches" */ '@/views/MyBranches.vue'),
+      },
+    ],
+  },
+
+  {
+    path: '/productos',
+    component: DefaultLayout,
+    meta: {
+      title: 'productos',
+      icon: 'local_convenience_store',
+      group: 'advance',
+    },
+    redirect: '/productos/general',
+    children: [
+      {
+        path: '/productos/general',
+        name: 'Products',
+        meta: {
+          title: 'General',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "general-products" */ '@/views/products/GeneralProducts.vue'),
       },
     ],
   },

@@ -71,10 +71,10 @@ export const protectedRoute = [
         meta: {
           title: 'Cuentas',
           group: 'apps',
-          icon: 'cuentas',
+          icon: 'BankAccounts',
           requiresAuth: true,
         },
-        name: 'Cuentas',
+        name: 'BankAccounts',
         props: (route) => ({
           type: route.query.type,
         }),

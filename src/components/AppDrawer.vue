@@ -10,7 +10,7 @@
     <v-toolbar color="primary darken-1" dark>
       <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
       <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">Administardor</span>
+        <span class="hidden-sm-and-down">Administrador</span>
       </v-toolbar-title>
     </v-toolbar>
     <div class="pa-1">
@@ -85,6 +85,11 @@ export default {
       },
       immediate: true,
     },
+  },
+  async mounted () {
+    if (!this.$session.exists()) {
+      this.$router.push('/login')
+    }
   },
   created() {},
 

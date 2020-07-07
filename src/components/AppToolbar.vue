@@ -146,15 +146,14 @@ export default {
     },
 
     getLogout() {
-      let varToken = localStorage.getItem('token')
+      let varToken = this.$session.get('tokenSession')
       config.headers.Authorization = 'Bearer ' + varToken
-      // console.log(config.headers)
       axios
         .get('http://auth.malllikeu.com/api/auth/logout', config)
         .then((response) => {
           response
           
-          localStorage.removeItem('token')
+          this.$session.destroy()
           delete axios.defaults.headers.common['Authorization']
           this.$router.push('/login')
         })
@@ -163,8 +162,7 @@ export default {
             switch (error.response.status) {
               case 401:
               default:
-                this.dialog = true;                
-                // console.log(error)
+                this.dialog = true;
                 break
             }
           }

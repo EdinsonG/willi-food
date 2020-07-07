@@ -87,6 +87,9 @@ export default {
     },
     lazy: false,
   }),
+  created () {
+    this.$session.destroy()
+  },
   methods: {
     getLogin() {
       axios
@@ -95,10 +98,11 @@ export default {
           password: this.model.password,
         })
         .then((response) => {
-          let accessToken = response.data.access_token
-          localStorage.setItem('token',accessToken)
-          // console.log(accessToken)
-          this.$router.push('/estadisticas')
+          this.$session.start()
+          this.$session.set('tokenSession', response.data.access_token)
+          if (this.$session.exists()) {
+            this.$router.push('/estadisticas')
+          }
         })
         .catch((error) => {
           if (error.response) {

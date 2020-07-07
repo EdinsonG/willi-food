@@ -2,6 +2,7 @@ import Vue from 'vue'
 import router from './router/'
 import store from './store/'
 import axios from 'axios'
+import VueSession from 'vue-session'
 import './registerServiceWorker'
 import './plugins/storage'
 import './plugins/vuetify'
@@ -13,6 +14,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import '@mdi/font/css/materialdesignicons.css'
 
+Vue.use(VueSession)
 Vue.config.productionTip = false
 
 window.axios=axios

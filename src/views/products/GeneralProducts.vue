@@ -3,7 +3,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h3>General</h3>
+          <h3>Mis Productos</h3>
         </v-flex>
         <v-flex lg12>
           <v-card>
@@ -19,7 +19,7 @@
                 class="hidden-sm-and-down"
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-dialog v-model="dialog" max-width="500px">
+              <v-dialog v-model="dialog" max-width="600px">
                 <!-- <template v-slot:activator="{ on }">
                   <div class="d-flex">
                     <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
@@ -29,26 +29,72 @@
                 </template> -->
                 <v-card>
                   <v-card-title color="primary">
-                    <span>Editar producto {{editedItem.id}}</span>
+                    <span v-if="editedItem.id && this.flow === 'edit'">Editar producto {{editedItem.id}}</span>
+                    <span v-if="editedItem.id && this.flow === 'delete'">Eliminar producto {{editedItem.id}}</span>
                   </v-card-title>
                   <v-card-text>
                     <v-row>
                       <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.name_product" label="Nombre del producto"></v-text-field>
+                        <v-text-field v-model="editedItem.stbr_id" label="Stbr_id" :disabled="this.flow === 'delete'"></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.cost" label="Costo"></v-text-field>
-                      </v-col>                     
-                      <v-col cols="12" sm="6">
-                      <v-switch v-model="status" :label="`Estatus: ${status.toString()}`"></v-switch>
+                        <v-text-field v-model="editedItem.stor_id" label="Stor_id" :disabled="this.flow === 'delete'"></v-text-field>
                       </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.depa_id" label="Depa_id" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_number" label="Número de producto" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_name" label="Nombre del producto" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_description" label="Descripción" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_outstanding" label="Outstanding" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_quantityavailable" label="Cantidad disponible" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_unitcost" label="Costo unitario" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>   
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_condition" label="Condición de producto" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>  
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col>                 
+                      <v-col cols="12" sm="6">
+                        <v-switch v-model="editedItem.prod_status" label="Estatus:" :disabled="this.flow === 'delete'"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_topost" label="Topost" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col> 
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_long" label="Longitud" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col> 
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_width" label="Width" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col> 
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_high" label="Altura" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col> 
+                      <v-col cols="12" sm="6">
+                        <v-text-field v-model="editedItem.prod_weight" label="Peso" :disabled="this.flow === 'delete'"></v-text-field>
+                      </v-col> 
                     </v-row>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="grey" text flat @click="handleEdit()">Cancelar</v-btn>
-                     <!-- <v-btn color="blue-grey lighten-5" flat @click.native="close">Cancelar</v-btn> -->
-                    <v-btn color="primary" text flat @click="saveItem(editedItem)">Guardar</v-btn>
+                    <v-btn color="red--text lighten-5" v-if="this.flow === 'delete'" flat @click="deleteItem(editedItem.id)">Eliminar</v-btn>
+                    <v-btn color="primary" text v-if="this.flow === 'edit'" flat  
+                    @click="saveItem(editedItem.id,editedItem.stbr_id, editedItem.stor_id, editedItem.depa_id, editedItem.prod_number, editedItem.prod_name,
+                                     editedItem.prod_description, editedItem.prod_outstanding, editedItem.prod_quantityavailable, editedItem.prod_unitcost, 
+                                     editedItem.prod_condition, editedItem.prod_warranty, editedItem.prod_status, editedItem.prod_topost, editedItem.prod_long, editedItem.prod_width, editedItem.prod_high, editedItem.prod_weight)">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -59,11 +105,12 @@
             <v-divider></v-divider>
             <v-card-text class="pa-0">
               <v-data-table
-                :headers="complex.headers"
+                :headers="fields"
                 :search="search"
-                :items="complex.items"
+                :items="productsOffices"
                 class="elevation-1"
                 item-key="name"
+                loading="true"
               >
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
@@ -74,7 +121,7 @@
                   </div>
                 </template>
                 <template v-slot:item.action="{ item }">
-                  <v-btn depressed text icon fab dark color="teal" small @click="handleEdit(item)">
+                  <v-btn depressed text icon fab dark color="teal" small @click="handleEdit('edit', item)">
                     <v-icon>edit</v-icon>
                   </v-btn>
                   <v-btn
@@ -85,7 +132,7 @@
                     dark
                     color="pink"
                     small
-                    @click="handleDelete(item)"
+                    @click="handleEdit('delete', item)"
                   >
                     <v-icon>delete</v-icon>
                   </v-btn>
@@ -100,11 +147,15 @@
 </template>
 
 <script>
-import { Items as Users } from '@/api/user'
+import axios from 'axios'
+
+const productsOffices = []
 
 export default {
   data() {
     return {
+      flow: '',
+      productsOffices: productsOffices,
       formModel: {
         name_bank: '',
         account_number: '',
@@ -112,32 +163,28 @@ export default {
       dialog: false,
       search: '',
       status: false,
-      complex: {
-        selected: [],
-        headers: [
-          {
-            text: 'Id',
-            value: 'id',
-          },
-          {
-            text: 'Nombre',
-            value: 'name_product',
-          },
-          {
-            text: 'Costo',
-            value: 'cost',
-          },
-          {
-            text: 'Estatus',
-            value: 'status',
-          },
-          { text: 'Acción', 
-            value: 'action', 
-            align: 'right' 
-          },
-        ],
-        items: Users,
-      },
+      fields: [
+        {
+          text: 'Id',
+          value: 'id',
+        },
+        {
+          text: 'Nombre',
+          value: 'prod_name',
+        },
+        {
+          text: 'Costo',
+          value: 'prod_unitcost',
+        },
+        {
+          text: 'Estatus',
+          value: 'prod_status',
+        },
+        { text: 'Acción', 
+          value: 'action', 
+          align: 'right' 
+        },
+      ],
       editedItem: {},
       basic: {
         headers: [
@@ -162,21 +209,87 @@ export default {
       },
     }
   },
-
+  created () {
+    this.getProducts()
+  },
   methods: {
-    handleEdit(item) {
+    async getProducts () {
+      axios.get('http://store.malllikeu.com/api/products')
+      .then((response) => {
+        this.productsOffices = response.data.products
+      })
+      .catch((error) => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+            case 402:
+              break
+            default:
+          }
+        }
+      }).finally(() => (this.loading = false))
+    },
+    async deleteItem (id) {
+      axios.delete('http://store.malllikeu.com/api/products/' + id)
+      .then((response) => {
+        console.log('RESPONSE: ', response.data.message)
+        this.getProducts()
+        this.dialog = !this.dialog
+      })
+      .catch((error) => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 422:
+              this.editError = 'No se pudo eliminar'
+              break
+            default:
+          }
+        }
+      }).finally(() => (this.loading = false))
+    },
+    handleEdit(flow, item) {
+      this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
-  },
-
-  close () {
-      this.dialog = false
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      }, 300)
+    async saveItem (id, stbr_id, stor_id, depa_id, prod_number, prod_name, prod_description, prod_outstanding, prod_quantityavailable, prod_unitcost, 
+                   prod_condition, prod_warranty, prod_status, prod_topost, prod_long, prod_width, prod_high, prod_weight) {
+       axios.put('http://store.malllikeu.com/api/products/' + id, {
+        stbr_id: stbr_id,
+        stor_id: stor_id,
+        depa_id: depa_id,
+        number: prod_number,
+        name: prod_name,
+        description: prod_description,
+        outstanding: prod_outstanding,
+        quantityavailable: prod_quantityavailable,
+        unitcost: prod_unitcost,
+        condition: prod_condition,
+        warranty: prod_warranty,
+        status: prod_status,
+        topost: prod_topost,
+        long: prod_long,
+        width: prod_width,
+        high: prod_high,
+        weight: prod_weight
+       })
+       .then((response) => {
+        console.log('RESPONSE: ', response.data.message)
+        this.getProducts()
+        this.dialog = !this.dialog
+      })
+      .catch((error) => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 422:
+              this.editError = 'No se pudo editar'
+              break
+            default:
+          }
+        }
+      }).finally(() => (this.loading = false))
+    }
   },
 }
 </script>

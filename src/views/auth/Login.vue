@@ -75,7 +75,7 @@ export default {
     dialog: false,
     loading: false,
     model: {
-      email: 'xenag67252@unomail9.com',
+      email: 'jcadiz03@gmail.com',
       emailRules: [
         v => !!v || 'Correo electrónico es requerido',
         v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',

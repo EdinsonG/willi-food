@@ -19,7 +19,7 @@
                 class="hidden-sm-and-down"
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-dialog v-model="dialogCreate" max-width="600px">
+              <v-dialog v-model="dialogCreate" max-width="800px">
                 <template v-slot:activator="{ on }">
                   <div class="d-flex">
                     <v-btn color="primary" dark class="ml-auto ma-3" v-on="on" @click="handleCreate()">
@@ -32,81 +32,83 @@
                     <span>Nueva sucursal</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="stor_id" label="Stor_id" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="user_id" label="User_id" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="latitude" label="Latitud" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="longitude" label="Longitud" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="city" label="Ciudad" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="phone" label="Número de teléfono" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="email" label="Email" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select v-model="pickup" :items="selectPickup" label="Pickup" ></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select v-model="delivery" :items="selectDelivery" label="Delivery" ></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="schedule" label="schedule" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-select v-model="state" :items="selectState" label="Estado" ></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="deliveryinfo" label="Información de delivery" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="returninfo" label="return info" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="otherinfo" label="Otra información" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="webside" label="Sitio web" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="facebook" label="Facebook" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="twitter" label="Twiter" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="instagram" label="Instagram" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="pinterest" label="Pinterest" ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="youtube" label="Youtube" ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  <div class="darken-2 text-justify pr-16" v-if="editError" border="bottom">
+                    <v-form v-model="isValid">
+                      <v-row>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="stor_id" label="Stor_id" :rules="rules.stor" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="user_id" label="User_id" :rules="rules.user" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="latitude" label="Latitud" :rules="rules.latitude" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="longitude" label="Longitud" :rules="rules.longitude" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="city" label="Ciudad" :rules="rules.city" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="phone" label="Número de teléfono" :rules="rules.phone" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field v-model="email" label="Correo electrónico" :rules="rules.email" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="pickup" :items="selectPickup" label="Retiro" required :disabled="text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="delivery" :items="selectDelivery" label="Entrega" required :disabled="text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field v-model="schedule" label="schedule" :rules="rules.schedule" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="state" :items="selectState" label="Estatus" required :disabled="text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="9">
+                          <v-text-field v-model="deliveryinfo" label="Información de la entrega" :rules="rules.deliveryinfo" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="returninfo" label="Información de devolución" :rules="rules.returninfo" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="otherinfo" label="Otra información" :rules="rules.otherinfo" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="webside" label="Sitio web" :rules="rules.webside" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="facebook" label="Facebook" :rules="rules.facebook" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="twitter" label="Twiter" :rules="rules.twitter" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="instagram" label="Instagram" :rules="rules.instagram" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="pinterest" label="Pinterest" :rules="rules.pinterest" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="youtube" label="Youtube" :rules="rules.youtube" required type="text" :disabled="text"></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                  <div class="darken-2 text-justify" v-if="editError" border="bottom">
                     <span class="red--text">{{ editError }}</span>
                   </div>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleCreate()">Cancelar</v-btn>
+                    <v-btn color="grey" text flat @click="handleCreate()" :disabled="text">Cancelar</v-btn>
                     <v-btn color="primary" text flat 
-                    @click="newItem()">Guardar</v-btn>
+                    @click="newItem()" :loading="loading" :disabled="!isValid">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialog" max-width="600px">
+              <v-dialog v-model="dialog" max-width="800px">
                 <v-card>
                   <v-card-title color="primary">
                     <span v-if="editedItem.id && this.flow === 'edit'">Editar sucursal {{editedItem.id}}</span>
@@ -114,84 +116,86 @@
                     <span v-if="this.flow === 'create'">Nueva sucursal</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stor_id" label="Stor_id" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.user_id" label="User_id" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_latitude" label="Latitud" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_longitude" label="Longitud" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_city" label="Ciudad" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_phone" label="Número de teléfono" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_email" label="Email" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select v-model="editedItem.stbr_pickup" :items="selectPickup" label="Pickup" :disabled="this.flow === 'delete'"></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select v-model="editedItem.stbr_delivery" :items="selectDelivery" label="Delivery" :disabled="this.flow === 'delete'"></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_schedule" label="schedule" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-select v-model="editedItem.stbr_state" :items="selectState" label="Estado" :disabled="this.flow === 'delete'"></v-select>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_deliveryinfo" label="Información de delivery" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_returninfo" label="return info" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_otherinfo" label="Otra información" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12">
-                        <v-text-field v-model="editedItem.stbr_webside" label="Sitio web" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_facebook" label="Facebook" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_twitter" label="Twiter" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_instagram" label="Instagram" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_pinterest" label="Pinterest" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_youtube" label="Youtube" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.created_at" label="Creado" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                    </v-row>
-                  <div class="darken-2 text-justify pr-16" v-if="editError" border="bottom">
+                    <v-form v-model="isValidEdit">
+                      <v-row>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stor_id" :rules="rules.stor" required type="text" label="Stor_id" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.user_id" label="User_id" :rules="rules.user" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_latitude" label="Latitud" :rules="rules.latitude" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_longitude" label="Longitud" :rules="rules.longitude" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_city" label="Ciudad" :rules="rules.city" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_phone" label="Número de teléfono" :rules="rules.phone" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field v-model="editedItem.stbr_email" label="Correo electrónico" :rules="rules.email" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="editedItem.stbr_pickup" :items="selectPickup" label="Retiro" :disabled="this.flow === 'delete' || text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="editedItem.stbr_delivery" :items="selectDelivery" label="Entrega" :disabled="this.flow === 'delete' || text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field v-model="editedItem.stbr_schedule" label="schedule" :rules="rules.schedule" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-select v-model="editedItem.stbr_state" :items="selectState" label="Estatus" :disabled="this.flow === 'delete' || text"></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="9">
+                          <v-text-field v-model="editedItem.stbr_deliveryinfo" label="Información de la entrega" :rules="rules.deliveryinfo" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.stbr_returninfo" label="Información de devolución" :rules="rules.returninfo" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.stbr_otherinfo" label="Otra información" :rules="rules.otherinfo" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.stbr_webside" label="Sitio web" :rules="rules.webside" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_facebook" label="Facebook" :rules="rules.facebook" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_twitter" label="Twiter" :rules="rules.twitter" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_instagram" label="Instagram" :rules="rules.instagram" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_pinterest" label="Pinterest" :rules="rules.pinterest" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.stbr_youtube" label="Youtube" :rules="rules.youtube" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.created_at" label="Creado" :rules="rules.stor" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                  <div class="darken-2 text-justify" v-if="editError" border="bottom">
                     <span class="red--text">{{ editError }}</span>
                   </div>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()">Cancelar</v-btn>
+                    <v-btn color="grey" text flat @click="handleEdit()" :disabled="text">Cancelar</v-btn>
                     <v-btn color="red--text lighten-5" v-if="this.flow === 'delete'" flat @click="deleteItem(editedItem.id)">Eliminar</v-btn>
                     <v-btn color="primary" text v-if="this.flow === 'edit'" flat 
                     @click="saveItem(editedItem.id, editedItem.stbr_city, editedItem.stbr_delivery, editedItem.stbr_deliveryinfo, editedItem.stbr_pickup, 
                                      editedItem.stbr_email, editedItem.stbr_facebook, editedItem.stbr_instagram, editedItem.stbr_latitude, editedItem.stbr_longitude,
                                      editedItem.stbr_otherinfo, editedItem.stbr_phone, editedItem.stbr_pinterest, editedItem.stbr_returninfo, editedItem.stbr_schedule,
-                                     editedItem.stbr_state, editedItem.stbr_twitter, editedItem.stbr_webside, editedItem.stbr_youtube, editedItem.stor_id, editedItem.user_id )">Guardar</v-btn>
+                                     editedItem.stbr_state, editedItem.stbr_twitter, editedItem.stbr_webside, editedItem.stbr_youtube, editedItem.stor_id, editedItem.user_id )" :disabled="!isValidEdit" :loading="loading">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -205,6 +209,7 @@
                 :headers="fields"
                 :search="search"
                 :items="branchOffices"
+                :sort-by="['id']"
                 class="elevation-1"
                 item-key="name"
                 loading="true"
@@ -250,24 +255,125 @@ const branchOffices = []
 
 export default {
   data() {
+
     return {
+      stor_id: '',
+      user_id: '',
+      latitude: '',
+      longitude: '',
+      city: '',
+      phone: '',
+      email: '',
+      pickup: '',
+      delivery: '',
+      schedule: '',
+      state: '',
+      deliveryinfo: '',
+      returninfo: '',
+      otherinfo: '',
+      webside: '',
+      facebook: '',
+      twitter: '',
+      instagram: '',
+      pinterest: '',
+      youtube: '',
+      isValid: true,
+      isValidEdit: true,
+      rules: {
+        stor: [
+          v => !!v || 'Este campo es requerido',
+          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+        ],
+        user: [
+          v => !!v || 'Este campo es requerido',
+          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+        ],
+        latitude: [
+          v => !!v || 'Este campo es requerido',
+          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+        ],
+        longitude: [
+          v => !!v || 'Este campo es requerido',
+          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+        ],
+        city: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        phone: [
+          v => !!v || 'Este campo es requerido',
+          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+        ],
+        email: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 80 || 'El campo debe tener menos de 80 caracteres.',
+          v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
+        ],
+        pickup: [
+          val => (val || '').length > 0 || 'This field is required',
+        ],
+        delivery: [
+          v => !!v || 'Este campo es requerido',
+        ],
+        schedule: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        state: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        deliveryinfo: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        returninfo: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        otherinfo: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        webside: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        facebook: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        twitter: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        instagram: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        pinterest: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        youtube: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+      },
+
       selectPickup: [true, false],
       selectState: ['open', 'closed'],
       selectDelivery: ['p', 'e', 'a'],
       flow: '',
       branchOffices: branchOffices,
       editError: '',
-      loading: true,
-      formModel: {
-        name: '',
-        email: '',
-      },
+      loading: false,
       dialog: false,
       dialogCreate: false,
       search: '',
       fields: [
         {
-          text: 'Id',
+          text: 'Nro.',
           value: 'id',
         },
         {
@@ -288,7 +394,7 @@ export default {
       basic: {
         headers: [
           {
-            text: 'Id',
+            text: 'Nro.',
             value: 'id',
           },
           {
@@ -305,28 +411,12 @@ export default {
           },
         ],
       },
-      stor_id: '',
-      user_id: '',
-      latitude: '',
-      longitude: '',
-      city: '',
-      phone: '',
-      email: '',
-      pickup: '',
-      delivery: '',
-      schedule: '',
-      state: '',
-      deliveryinfo: '',
-      returninfo: '',
-      otherinfo: '',
-      webside: '',
-      facebook: '',
-      twitter: '',
-      instagram: '',
-      pinterest: '',
-      youtube: ''
+      
+      
     }
   },
+
+
   created () {
     this.getStores()
   },
@@ -397,7 +487,9 @@ export default {
             default:
           }
         }
-      }).finally(() => (this.loading = false))
+      }).finally(() => (this.loading = false, this.text = false))
+      this.text = true
+      this.loading = true
     },
     async deleteItem (id) {
       axios.delete('http://store.malllikeu.com/api/store-branches/' + id)
@@ -416,6 +508,7 @@ export default {
           }
         }
       }).finally(() => (this.loading = false))
+      this.loading = true
     },
     async newItem () {
       axios.post('http://store.malllikeu.com/api/store-branches', {
@@ -455,7 +548,9 @@ export default {
             default:
           }
         }
-      }).finally(() => (this.loading = false))
+      }).finally(() => (this.loading = false,this.text = false))
+      this.text = true
+      this.loading = true
     }
   },
 }

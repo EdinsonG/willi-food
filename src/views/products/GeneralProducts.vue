@@ -19,7 +19,7 @@
                 class="hidden-sm-and-down"
               ></v-text-field>
               <v-spacer></v-spacer>
-              <v-dialog v-model="dialog" max-width="600px">
+              <v-dialog v-model="dialog" max-width="800px">
                 <!-- <template v-slot:activator="{ on }">
                   <div class="d-flex">
                     <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
@@ -33,68 +33,70 @@
                     <span v-if="editedItem.id && this.flow === 'delete'">Eliminar producto {{editedItem.id}}</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stbr_id" label="Stbr_id" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.stor_id" label="Stor_id" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.depa_id" label="Depa_id" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_number" label="Número de producto" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_name" label="Nombre del producto" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_description" label="Descripción" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_outstanding" label="Outstanding" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_quantityavailable" label="Cantidad disponible" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_unitcost" label="Costo unitario" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>   
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_condition" label="Condición de producto" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>  
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col>                 
-                      <v-col cols="12" sm="6">
-                        <v-switch v-model="editedItem.prod_status" label="Estatus:" :disabled="this.flow === 'delete'"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_topost" label="Topost" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col> 
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_long" label="Longitud" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col> 
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_width" label="Width" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col> 
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_high" label="Altura" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col> 
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="editedItem.prod_weight" label="Peso" :disabled="this.flow === 'delete'"></v-text-field>
-                      </v-col> 
-                    </v-row>
+                    <v-form v-model="isValidEdit">
+                      <v-row>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stbr_id" label="Stbr_id" :rules="rules.stbr" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.stor_id" label="Stor_id" :rules="rules.stor" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.depa_id" label="Depa_id" :rules="rules.depa" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.prod_number" label="Número de producto" :rules="rules.prod_number" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.prod_name" label="Nombre del producto" :rules="rules.prod_name" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.prod_description" label="Descripción" :rules="rules.prod_description" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.prod_outstanding" label="Outstanding" :rules="rules.prod_outstanding" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                          <v-text-field v-model="editedItem.prod_quantityavailable" label="Cantidad disponible" :rules="rules.prod_quantityavailable" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                          <v-text-field v-model="editedItem.prod_unitcost" label="Costo unitario" :rules="rules.prod_unitcost" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>   
+                        <v-col cols="12" sm="4">
+                          <v-text-field v-model="editedItem.prod_condition" label="Condición de producto" :rules="rules.prod_condition" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>  
+                        <v-col cols="12" sm="12">
+                          <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :rules="rules.prod_warranty" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col>                 
+                        <v-col cols="12" sm="4">
+                          <v-switch v-model="editedItem.prod_status" label="Estatus:" :rules="rules.prod_status" :disabled="this.flow === 'delete' || text"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
+                        </v-col>
+                        <v-col cols="12" sm="8">
+                          <v-text-field v-model="editedItem.prod_topost" label="Topost" :rules="rules.prod_topost" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col> 
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.prod_long" label="Longitud" :rules="rules.prod_long" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col> 
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.prod_width" label="Width" :rules="rules.prod_width" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col> 
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.prod_high" label="Altura" :rules="rules.prod_high" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col> 
+                        <v-col cols="12" sm="3">
+                          <v-text-field v-model="editedItem.prod_weight" label="Peso" :rules="rules.prod_weight" :disabled="this.flow === 'delete' || text"></v-text-field>
+                        </v-col> 
+                      </v-row>
+                    </v-form>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()">Cancelar</v-btn>
+                    <v-btn color="grey" text flat @click="handleEdit()" :disabled="text">Cancelar</v-btn>
                     <v-btn color="red--text lighten-5" v-if="this.flow === 'delete'" flat @click="deleteItem(editedItem.id)">Eliminar</v-btn>
                     <v-btn color="primary" text v-if="this.flow === 'edit'" flat  
                     @click="saveItem(editedItem.id,editedItem.stbr_id, editedItem.stor_id, editedItem.depa_id, editedItem.prod_number, editedItem.prod_name,
                                      editedItem.prod_description, editedItem.prod_outstanding, editedItem.prod_quantityavailable, editedItem.prod_unitcost, 
-                                     editedItem.prod_condition, editedItem.prod_warranty, editedItem.prod_status, editedItem.prod_topost, editedItem.prod_long, editedItem.prod_width, editedItem.prod_high, editedItem.prod_weight)">Guardar</v-btn>
+                                     editedItem.prod_condition, editedItem.prod_warranty, editedItem.prod_status, editedItem.prod_topost, editedItem.prod_long, editedItem.prod_width, editedItem.prod_high, editedItem.prod_weight)" :disabled="!isValidEdit" :loading="loading">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -111,6 +113,7 @@
                 class="elevation-1"
                 item-key="name"
                 loading="true"
+                :sort-by="['id']"
               >
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
@@ -156,16 +159,99 @@ export default {
     return {
       flow: '',
       productsOffices: productsOffices,
-      formModel: {
-        name_bank: '',
-        account_number: '',
+      stbr_id : '',
+      stor_id : '',
+      depa_id : '',
+      prod_number : '',
+      prod_name : '',
+      prod_description : '',
+      prod_outstanding : '',
+      prod_quantityavailable : '',
+      prod_unitcost : '',
+      prod_condition : '',
+      prod_warranty : '',
+      prod_status : '',
+      prod_topost : '',
+      prod_long : '',
+      prod_width : '',
+      prod_high : '',
+      prod_weight : '',
+      isValidEdit: true,
+      rules: {
+        stbr: [
+          v => !!v || 'Este campo es requerido',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+        ],
+        stor: [
+          v => !!v || 'Este campo es requerido',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+        ],
+        depa: [
+          v => !!v || 'Este campo es requerido',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_number: [
+          v => !!v || 'Este campo es requerido',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_name: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        prod_description: [
+          v => !!v || 'Este campo es requerido',
+        ],
+        prod_outstanding: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        prod_quantityavailable: [
+          v => !!v || 'Este campo es requerido',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_unitcost: [
+          v => !!v || 'Este campo es requerido',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_condition: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        prod_warranty: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        prod_status: [
+          v => !!v || 'Este campo es requerido',
+        ],
+        prod_topost: [
+          v => !!v || 'Este campo es requerido',
+          v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
+        ],
+        prod_long: [
+          v => !!v || 'Este campo es requerido',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_width: [
+          v => !!v || 'Este campo es requerido',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_high: [
+          v => !!v || 'Este campo es requerido',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
+        ],
+        prod_weight: [
+          v => !!v || 'Este campo es requerido',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
+        ],
       },
+      loading: false,
       dialog: false,
       search: '',
       status: false,
       fields: [
         {
-          text: 'Id',
+          text: 'Nro',
           value: 'id',
         },
         {
@@ -246,6 +332,7 @@ export default {
           }
         }
       }).finally(() => (this.loading = false))
+      this.loading = true
     },
     handleEdit(flow, item) {
       this.flow = flow
@@ -288,7 +375,9 @@ export default {
             default:
           }
         }
-      }).finally(() => (this.loading = false))
+      }).finally(() => (this.loading = false, this.text = false))
+      this.text = true
+      this.loading = true
     }
   },
 }

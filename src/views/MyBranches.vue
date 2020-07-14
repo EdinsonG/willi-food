@@ -282,19 +282,19 @@ export default {
       rules: {
         stor: [
           v => !!v || 'Este campo es requerido',
-          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
         ],
         user: [
           v => !!v || 'Este campo es requerido',
-          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
         ],
         latitude: [
           v => !!v || 'Este campo es requerido',
-          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
         ],
         longitude: [
           v => !!v || 'Este campo es requerido',
-          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+          v => !isNaN(Number(v)) || 'Este campo solo permite números',
         ],
         city: [
           v => !!v || 'Este campo es requerido',
@@ -302,7 +302,7 @@ export default {
         ],
         phone: [
           v => !!v || 'Este campo es requerido',
-          v => /[0-9]/.test(v) || 'Este campo solo permite números',
+          v => Number.isInteger(Number(v)) || 'Este campo solo permite números',
         ],
         email: [
           v => !!v || 'Este campo es requerido',
@@ -548,7 +548,7 @@ export default {
             default:
           }
         }
-      }).finally(() => (this.loading = false,this.text = false))
+      }).finally(() => (this.loading = false, this.text = false))
       this.text = true
       this.loading = true
     }

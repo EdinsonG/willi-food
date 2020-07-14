@@ -43,8 +43,8 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()">Cancelar</v-btn>
-                     <!-- <v-btn color="blue-grey lighten-5" flat @click.native="close">Cancelar</v-btn> -->
+                    <!-- <v-btn color="grey" text flat @click="handleEdit()">Cancelar</v-btn> -->
+                     <v-btn color="blue-grey lighten-5" flat @click.native="close">Cancelar</v-btn>
                     <v-btn color="primary" text flat @click="saveItem(editedItem)">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -150,7 +150,7 @@ export default {
 
   methods: {
     handleEdit(item) {
-      this.editedItem = Object.assign(this.editedItem, item) || {}
+      this.editedItem = Object.assign(this.editedItem, item)
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },

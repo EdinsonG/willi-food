@@ -179,7 +179,7 @@
                           <v-text-field v-model="editedItem.stbr_youtube" label="Youtube" :rules="rules.youtube" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedItem.created_at" label="Creado" :rules="rules.stor" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.created_at" label="Creado" :rules="rules.created" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                       </v-row>
                     </v-form>
@@ -310,7 +310,7 @@ export default {
           v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
         ],
         pickup: [
-          val => (val || '').length > 0 || 'This field is required',
+          val => (val || '').length > 0 || 'Este campo es requerido',
         ],
         delivery: [
           v => !!v || 'Este campo es requerido',
@@ -367,6 +367,7 @@ export default {
       flow: '',
       branchOffices: branchOffices,
       editError: '',
+      text: false,
       loading: false,
       dialog: false,
       dialogCreate: false,

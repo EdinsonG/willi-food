@@ -36,10 +36,9 @@ const Menu = [
 
   { header: 'Tienda' },
   {
-    text: 'Mi tienda',
-    to: '/mi-tienda',
+    text: 'Mis tiendas',
+    to: '/mis-tiendas',
     icon: 'store',
-    disabled: 'disabled',
   },
   {
     text: 'Departamentos',

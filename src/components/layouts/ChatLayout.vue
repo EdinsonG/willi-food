@@ -4,9 +4,9 @@
       <v-navigation-drawer class="pa-0 chat-drawer primary" fixed permanent app width="68">
         <chat-menu :items="menus" class="chat-drawer--menu"> </chat-menu>
       </v-navigation-drawer>
-      <v-content class="chat-main">
+      <v-main class="chat-main">
         <router-view />
-      </v-content>
+      </v-main>
     </template>
     <template v-else>
       <v-toolbar color="primary" fixed dark>
@@ -18,11 +18,11 @@
           <v-icon>more_vert</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-content class="chat-main">
+      <v-main class="chat-main">
         <transition>
           <router-view></router-view>
         </transition>
-      </v-content>
+      </v-main>
       <v-bottom-navigation :value="true" absolute color="primary" app fixed v-if="!hideBottomNav">
         <v-btn dark text :value="item.to.path" v-for="(item, index) in menus" :key="index" :to="item.to">
           <span>{{ item.text }}</span>

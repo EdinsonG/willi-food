@@ -36,55 +36,55 @@
                     <v-form v-model="isValidEdit">
                       <v-row>
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.stbr_id" label="Stbr_id" :rules="rules.stbr" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.stbr_id" label="Stbr_id" :rules="rules.stbr" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.stor_id" label="Stor_id" :rules="rules.stor" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.stor_id" label="Stor_id" :rules="rules.stor" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.depa_id" label="Depa_id" :rules="rules.depa" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.depa_id" label="Depa_id" :rules="rules.depa" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.prod_number" label="Número de producto" :rules="rules.prod_number" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_number" label="Número de producto" :rules="rules.prod_number" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedItem.prod_name" label="Nombre del producto" :rules="rules.prod_name" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_name" label="Nombre del producto" :rules="rules.prod_name" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedItem.prod_description" label="Descripción" :rules="rules.prod_description" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_description" label="Descripción" :rules="rules.prod_description" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedItem.prod_outstanding" label="Outstanding" :rules="rules.prod_outstanding" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_outstanding" label="Outstanding" :rules="rules.prod_outstanding" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-text-field v-model="editedItem.prod_quantityavailable" label="Cantidad disponible" :rules="rules.prod_quantityavailable" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_quantityavailable" label="Cantidad disponible" :rules="rules.prod_quantityavailable" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-text-field v-model="editedItem.prod_unitcost" label="Costo unitario" :rules="rules.prod_unitcost" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_unitcost" label="Costo unitario" :rules="rules.prod_unitcost" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>   
                         <v-col cols="12" sm="4">
-                          <v-text-field v-model="editedItem.prod_condition" label="Condición de producto" :rules="rules.prod_condition" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_condition" label="Condición de producto" :rules="rules.prod_condition" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>  
                         <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :rules="rules.prod_warranty" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :rules="rules.prod_warranty" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>                 
                         <v-col cols="12" sm="4">
-                          <v-switch v-model="editedItem.prod_status" label="Estatus:" :rules="rules.prod_status" :disabled="this.flow === 'delete' || text"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
+                          <v-switch v-model="editedItem.prod_status" label="Estatus:" :rules="rules.prod_status" required type="text" :disabled="this.flow === 'delete' || text"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
                         </v-col>
                         <v-col cols="12" sm="8">
-                          <v-text-field v-model="editedItem.prod_topost" label="Topost" :rules="rules.prod_topost" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_topost" label="Topost" :rules="rules.prod_topost" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col> 
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.prod_long" label="Longitud" :rules="rules.prod_long" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_long" label="Longitud" :rules="rules.prod_long" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col> 
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.prod_width" label="Width" :rules="rules.prod_width" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_width" label="Width" :rules="rules.prod_width" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col> 
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.prod_high" label="Altura" :rules="rules.prod_high" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_high" label="Altura" :rules="rules.prod_high" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col> 
                         <v-col cols="12" sm="3">
-                          <v-text-field v-model="editedItem.prod_weight" label="Peso" :rules="rules.prod_weight" :disabled="this.flow === 'delete' || text"></v-text-field>
+                          <v-text-field v-model="editedItem.prod_weight" label="Peso" :rules="rules.prod_weight" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col> 
                       </v-row>
                     </v-form>
@@ -247,6 +247,7 @@ export default {
       },
       loading: false,
       dialog: false,
+      text: false,
       search: '',
       status: false,
       fields: [

@@ -76,11 +76,11 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
+    <v-main>
       <transition>
         <router-view></router-view>
       </transition>
-    </v-content>
+    </v-main>
     <v-dialog v-model="dialog" max-width="640px">
       <compose></compose>
     </v-dialog>

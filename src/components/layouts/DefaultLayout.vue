@@ -2,7 +2,7 @@
   <v-app id="inspire" class="app dashboard">
     <app-drawer class="app--drawer" :show-drawer="showDrawer" />
     <app-toolbar class="app--toolbar" @side-icon-click="handleDrawerVisiable" />
-    <v-content>
+    <v-main>
       <!-- Page Header -->
       <div class="page-wrapper"><router-view /></div>
       <!-- App Footer -->
@@ -12,7 +12,7 @@
         <span class="caption mr-1">Make With Love</span>
         <v-icon color="pink" small>favorite</v-icon>
       </v-footer>
-    </v-content>
+    </v-main>
     <!-- Go to top -->
     <app-fab />
   </v-app>

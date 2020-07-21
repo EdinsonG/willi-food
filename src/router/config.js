@@ -80,6 +80,20 @@ export const protectedRoute = [
         }),
         component: () => import(/* webpackChunkName: "cuentas" */ '@/views/BankAccounts.vue'),
       },
+      {
+        path: '/mis-tiendas',
+        meta: {
+          title: 'Mis tiendas',
+          group: 'apps',
+          icon: 'store',
+          requiresAuth: true,
+        },
+        name: 'MyShop',
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/MyShop.vue'),
+      },
       // {
       //   path: '/media',
       //   meta: {

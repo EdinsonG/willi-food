@@ -85,7 +85,7 @@ export const protectedRoute = [
         meta: {
           title: 'Mis tiendas',
           group: 'apps',
-          icon: 'store',
+          icon: 'shop',
           requiresAuth: true,
         },
         name: 'MyShop',

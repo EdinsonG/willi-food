@@ -38,7 +38,7 @@ const Menu = [
   {
     text: 'Mis tiendas',
     to: '/mis-tiendas',
-    icon: 'store',
+    icon: 'shop',
   },
   {
     text: 'Departamentos',

@@ -60,7 +60,7 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                          <v-file-input
+                          <!-- <v-file-input
                             v-model="editedItem.stor_logo"
                             multiple
                             :rules="rules.logo"
@@ -69,7 +69,15 @@
                             label="Logo"
                             :disabled="this.flow === 'delete' || text"
                             show-size
-                          ></v-file-input>
+                          ></v-file-input> -->
+                          <v-text-field
+                            v-model="editedItem.stor_logo"
+                            label="Logo"
+                            :rules="rules.logo"
+                            required
+                            type="text"
+                            :disabled="this.flow === 'delete' || text"
+                          ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12">
                           <v-text-field
@@ -124,6 +132,8 @@
                           <v-select
                             v-model="editedItem.stor_typestore"
                             :items="selectTypeStore"
+                            item-text="name"
+                            item-value="code"
                             label="Tipo de tienda"
                             :rules="rules.typestore"
                             required
@@ -144,6 +154,8 @@
                           <v-select
                             v-model="editedItem.stor_delivery"
                             :items="selectDelivery"
+                            item-text="name"
+                            item-value="code"
                             label="Entrega"
                             :rules="rules.delivery"
                             required
@@ -172,14 +184,14 @@
                         </v-col>
                         <v-col cols="12" sm="12">
                           <span>Color</span>
-                          <v-color-picker hide-canvas  width="900" hide-mode-switch :mode.sync="mode" v-model="editedItem.stor_color"
+                          <v-color-picker  width="900" hide-mode-switch :mode.sync="mode" v-model="editedItem.stor_color"
                             label="Color"
                             :rules="rules.color"
                             type="text"
                             :disabled="this.flow === 'delete' || text"></v-color-picker>
                         </v-col>
                         <v-col cols="12" sm="12">
-                          <v-file-input
+                          <!-- <v-file-input
                             v-model="editedItem.stor_document"
                             multiple
                             :rules="rules.document"
@@ -188,7 +200,16 @@
                             label="Documento"
                             :disabled="this.flow === 'delete' || text"
                             show-size
-                          ></v-file-input>
+                          ></v-file-input> -->
+
+                          <v-text-field
+                            v-model="editedItem.stor_document"
+                            label="Documento"
+                            :rules="rules.document"
+                            required
+                            type="text"
+                            :disabled="this.flow === 'delete' || text"
+                          ></v-text-field>
                         </v-col>
                       </v-row>
                     </v-form>
@@ -228,28 +249,20 @@
                 item-key="name"
                 loading="true"
                 :sort-by="['id']"
+                loading-text="Cargando... Por favor espere"
               >
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
                 </template>
-                <template v-slot:item.url="{ item }">
+                <!-- <template v-slot:item.url="{ item }">
                   <div class="text-truncate" style="width: 180px">
                     <a :href="item.URL" target="_new">{{item.URL}}</a>
                   </div>
+                </template> -->
+                <template #item.url="{ item }">
+                  <a :href="'#' + item.user_id"><v-icon>store</v-icon>Sucursales asociadas</a>
                 </template>
                 <template v-slot:item.action="{ item }">
-                  <v-btn
-                    depressed
-                    text
-                    icon
-                    fab
-                    dark
-                    color="indigo"
-                    small
-                    @click="handleView('view', item)"
-                  >
-                    <v-icon>local_convenience_store</v-icon>
-                  </v-btn>
                   <v-btn
                     depressed
                     text
@@ -302,7 +315,7 @@ export default {
       stor_description: '',
       stor_outstanding: '',
       stor_typepublication: '',
-      stor_typestore: '',
+      stor_typestore: null,
       stor_pickup: '',
       stor_delivery: '',
       stor_supervision: '',
@@ -336,7 +349,6 @@ export default {
         // ],
         typestore: [
           (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 1 || 'El campo debe tener menos de 1 caracteres.',
         ],
         // pickup: [
         //   v => !!v || 'Este campo es requerido',
@@ -359,8 +371,15 @@ export default {
       },
       mode: 'hexa',
       modes: ['hexa'],
-      selectDelivery: ['p', 'e', 'a'],
-      selectTypeStore: ['t', 'c'],
+      selectDelivery: [
+        {code: 'p', name: 'Propio'},
+        {code: 'e', name: 'Externo'},
+        {code: 'a', name: 'Ambos'}
+      ],
+      selectTypeStore:  [
+        {code: 't', name: 'Transable'},
+        {code: 'c', name: 'Cotización'}
+      ],
       loading: false,
       dialog: false,
       text: false,
@@ -376,6 +395,10 @@ export default {
           text: 'Estatus',
           value: 'stor_active',
         },
+        {
+          text: 'Sucursales',
+          value: 'url',
+        },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
@@ -388,6 +411,10 @@ export default {
           {
             text: 'Estatus',
             value: 'stor_active',
+          },
+          {
+          text: 'Sucursales',
+          value: 'url',
           },
           { text: 'Acción', value: 'action', sortable: false, align: 'right' },
         ],
@@ -403,6 +430,7 @@ export default {
         .get('http://store.malllikeu.com/api/stores')
         .then((response) => {
           this.myStores = response.data.stores
+          console.log(this.myStores)
         })
         .catch((error) => {
           if (error.response) {

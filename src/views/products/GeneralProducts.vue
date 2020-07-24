@@ -69,7 +69,11 @@
                           <v-text-field v-model="editedItem.prod_warranty" label="Garantía" :rules="rules.prod_warranty" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                         </v-col>                 
                         <v-col cols="12" sm="4">
-                          <v-switch v-model="editedItem.prod_status" label="Estatus:" :rules="rules.prod_status" required type="text" :disabled="this.flow === 'delete' || text"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
+                          <v-row class="d-flex align-self-center align-center">
+                          <v-switch v-model="editedItem.prod_status" class="pr-1" label="Estatus: " :rules="rules.prod_status" required type="text" :disabled="this.flow === 'delete' || text"></v-switch>  <!-- ${editedItem.prod_status.toString()}`-->
+                          <label v-if="editedItem.prod_status === true || editedItem.prod_status === 'available'">Disponible </label>
+                          <label v-if="editedItem.prod_status === false  || editedItem.prod_status === 'selled'">No disponible </label>
+                          </v-row>
                         </v-col>
                         <v-col cols="12" sm="8">
                           <v-text-field v-model="editedItem.prod_topost" label="Topost" :rules="rules.prod_topost" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
@@ -222,7 +226,7 @@ export default {
           v => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
         prod_status: [
-          v => !!v || 'Este campo es requerido',
+          // v => !!v || 'Este campo es requerido',
         ],
         prod_topost: [
           v => !!v || 'Este campo es requerido',

@@ -92,12 +92,14 @@
                         <v-col cols="12" sm="3">
                           <v-switch
                             v-model="editedItem.stor_outstanding"
-                            label="Cerrada"
+                            :label="'Destacada: ' + this.stor_outstanding"
                             :rules="rules.outstanding"
                             required
                             type="text"
                             :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.stor_outstanding, 'outstanding')"
                           ></v-switch>
+
 
                           <!-- <template>
                           <v-row>
@@ -118,17 +120,18 @@
 
                           <v-switch v-model="editedItem.stor_outstanding" :label="`Destacada: ${stor_outstanding.toString()}`" :rules="rules.outstanding" required type="text" :disabled="this.flow === 'delete' || text"></v-switch>-->
                         </v-col>
-                        <v-col cols="12" sm="3">
+                        <v-col cols="12" sm="5">
                           <v-switch
                             v-model="editedItem.stor_typepublication"
-                            label="Abierta"
+                            :label="'Tipo de publicación: ' + this.stor_typepublication"
                             :rules="rules.typepublication"
                             required
                             type="text"
                             :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.stor_typepublication, 'typepublication')"
                           ></v-switch>
                         </v-col>
-                        <v-col cols="12" sm="3">
+                        <v-col cols="12" sm="4 ">
                           <v-select
                             v-model="editedItem.stor_typestore"
                             :items="selectTypeStore"
@@ -144,13 +147,14 @@
                         <v-col cols="12" sm="3">
                           <v-switch
                             v-model="editedItem.stor_pickup"
-                            label="Retiro"
+                            :label="'Retiro: ' + this.stor_pickup"
                             :rules="rules.pickup"
                             type="text"
                             :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.stor_pickup, 'pickup')"
                           ></v-switch>
                         </v-col>
-                        <v-col cols="12" sm="6">
+                        <v-col cols="12" sm="3">
                           <v-select
                             v-model="editedItem.stor_delivery"
                             :items="selectDelivery"
@@ -166,19 +170,21 @@
                         <v-col cols="12" sm="3">
                           <v-switch
                             v-model="editedItem.stor_supervision"
-                            label="Supervision"
+                            :label="'Supervisión: ' + this.stor_supervision"
                             :rules="rules.supervision"
                             type="text"
                             :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.stor_supervision, 'supervision')"
                           ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="3">
                           <v-switch
                             v-model="editedItem.stor_active"
-                            label="Estatus:"
+                            :label="'Estatus: ' + this.stor_active"
                             :rules="rules.prod_active"
                             type="text"
                             :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.stor_active, 'active')"
                           ></v-switch>
                           <!-- ${editedItem.prod_status.toString()}`-->
                         </v-col>
@@ -313,7 +319,7 @@ export default {
       stor_name: '',
       stor_logo: '',
       stor_description: '',
-      stor_outstanding: '',
+      stor_outstanding: true,
       stor_typepublication: '',
       stor_typestore: null,
       stor_pickup: '',
@@ -393,7 +399,7 @@ export default {
         },
         {
           text: 'Estatus',
-          value: 'stor_active',
+          value: 'active_store',
         },
         {
           text: 'Sucursales',
@@ -401,24 +407,7 @@ export default {
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
-      editedItem: {},
-      basic: {
-        headers: [
-          {
-            text: 'Nombre',
-            value: 'stor_name',
-          },
-          {
-            text: 'Estatus',
-            value: 'stor_active',
-          },
-          {
-          text: 'Sucursales',
-          value: 'url',
-          },
-          { text: 'Acción', value: 'action', sortable: false, align: 'right' },
-        ],
-      },
+      editedItem: {}
     }
   },
   created() {
@@ -426,11 +415,24 @@ export default {
   },
   methods: {
     async getStores() {
+      this.myStores = []
       axios
         .get('http://store.malllikeu.com/api/stores')
         .then((response) => {
           this.myStores = response.data.stores
-          console.log(this.myStores)
+          let myStores = response.data.stores
+          myStores.map(function (x) {
+            let langType
+            switch (x.stor_active) {
+              case true:
+                langType = 'Activo'
+                break
+              default:
+                langType = 'Inactivo'
+                break
+            }
+            x.active_store = langType
+          })
         })
         .catch((error) => {
           if (error.response) {
@@ -468,6 +470,12 @@ export default {
     handleEdit(flow, item) {
       this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
+      this.stor_outstanding = (this.editedItem.stor_outstanding === true) ? 'Si' : 'No'
+      this.stor_typepublication = (this.editedItem.stor_typepublication === true) ? 'Orgánica' : 'Privada'
+      this.stor_pickup = (this.editedItem.stor_pickup === true) ? 'Si' : 'No'
+      this.stor_outstanding = (this.editedItem.stor_outstanding === true) ? 'Si' : 'No'
+      this.stor_supervision = (this.editedItem.stor_supervision === true) ? 'Si' : 'No'
+      this.stor_active = (this.editedItem.stor_active === true) ? 'Activo' : 'Inactivo'
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
@@ -488,6 +496,7 @@ export default {
       stor_color,
       stor_document
     ) {
+      let typepublication = ( stor_typepublication === true) ? 'open' : 'close'
       axios
         .put('http://store.malllikeu.com/api/stores/' + id, {
           user_id: user_id,
@@ -496,7 +505,7 @@ export default {
           logo: stor_logo,
           description: stor_description,
           outstanding: stor_outstanding,
-          typepublication: stor_typepublication,
+          typepublication: typepublication,
           typestore: stor_typestore,
           pickup: stor_pickup,
           delivery: stor_delivery,
@@ -524,6 +533,24 @@ export default {
       this.text = true
       this.loading = true
     },
+    async changeSwitch (swt, flow) {
+      switch (flow) {
+        case 'outstanding':
+          this.stor_outstanding = (swt === true) ? 'Si' : 'No'
+          break
+        case 'typepublication':
+          this.stor_typepublication = (swt === true) ? 'Orgánica' : 'Privada'
+          break
+        case 'pickup':
+          this.stor_pickup = (swt === true) ? 'Si' : 'No'
+          break
+        case 'supervision':
+          this.stor_supervision = (swt === true) ? 'Si' : 'No'
+          break
+        case 'active':
+          this.stor_active = (swt === true) ? 'Activo' : 'Inactivo'
+      }
+    }
   },
 }
 </script>

@@ -213,6 +213,7 @@
                 class="elevation-1"
                 item-key="name"
                 loading="true"
+                loading-text="Cargando... Por favor espere"
               >
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
@@ -372,6 +373,7 @@ export default {
       dialog: false,
       dialogCreate: false,
       search: '',
+      str_id: this.$route.params.id,
       fields: [
         {
           text: 'Nro.',
@@ -411,22 +413,33 @@ export default {
             value: 'delivery',
           },
         ],
-      },
-      
-      
+      } 
     }
   },
-
-
-  created () {
-    this.getStores()
+   mounted () {
+    (!this.str_id) ? this.getStores() : this.getStoreBranches()
   },
   methods: {
     async getStores () {
       axios.get('http://store.malllikeu.com/api/store-branches')
       .then((response) => {
         this.branchOffices = response.data.storeBranches
-        console.log(this.branchOffices)
+      })
+      .catch((error) => {
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+            case 402:
+              break
+            default:
+          }
+        }
+      }).finally(() => (this.loading = false))
+    },
+    async getStoreBranches () {
+      axios.get('http://store.malllikeu.com/api/store-branches/' + this.str_id)
+      .then((response) => {
+        this.branchOffices = response.data.storeBranches
       })
       .catch((error) => {
         if (error.response) {

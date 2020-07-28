@@ -266,7 +266,7 @@
                   </div>
                 </template> -->
                 <template #item.url="{ item }">
-                  <a :href="'#' + item.user_id"><v-icon>store</v-icon>Sucursales asociadas</a>
+                  <a href="#" @click="storeBranches(item.user_id)"><v-icon>store</v-icon>Sucursales asociadas</a> {{ item.user_id }}
                 </template>
                 <template v-slot:item.action="{ item }">
                   <v-btn
@@ -550,6 +550,9 @@ export default {
         case 'active':
           this.stor_active = (swt === true) ? 'Activo' : 'Inactivo'
       }
+    },
+    storeBranches: function (id) {
+      this.$router.push({ name: 'Branches', params: { id: id } })
     }
   },
 }

@@ -25,7 +25,6 @@ const Menu = [
     text: 'Órdenes de Compra',
     to: '/ordenes-de-compra',
     icon: 'assignment',
-    disabled: 'disabled',
   },
   {
     text: 'Pagos',

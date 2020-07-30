@@ -81,6 +81,20 @@ export const protectedRoute = [
         component: () => import(/* webpackChunkName: "cuentas" */ '@/views/BankAccounts.vue'),
       },
       {
+        path: '/ordenes-de-compra',
+        meta: {
+          title: 'Órdenes de Compra',
+          group: 'apps',
+          icon: 'assignment',
+          requiresAuth: true,
+        },
+        name: 'PurchaseOrders',
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/PurchaseOrders.vue'),
+      },
+      {
         path: '/mis-tiendas',
         meta: {
           title: 'Mis tiendas',

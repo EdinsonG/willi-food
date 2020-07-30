@@ -582,7 +582,7 @@ export default {
         },
         {
           text: 'Estatus',
-          value: 'orde_status',
+          value: 'status_orde',
         },
         {
           text: 'Total',
@@ -591,28 +591,7 @@ export default {
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
-      viewItem: {},
-      basic: {
-        headers: [
-          {
-            text: 'Nro.',
-            value: 'id',
-          },
-          {
-            text: 'Fecha',
-            value: 'orde_date',
-          },
-          {
-            text: 'Estatus',
-            value: 'orde_status',
-          },
-          {
-            text: 'Total',
-            value: 'orde_total',
-          },
-          { text: 'Acción', value: 'action', sortable: false, align: 'right' },
-        ],
-      },
+      viewItem: {}
     }
   },
   created() {
@@ -624,44 +603,25 @@ export default {
         .get('http://store.malllikeu.com/api/orders')
         .then((response) => {
           this.purchaseOrders = response.data.orders
-          // console.log(this.purchaseOrders)
-          /*let purchaseOrders = response.data.orders
+          let purchaseOrders = response.data.orders
           purchaseOrders.map(function (x) {
-            let langOrdeStatus;
-            let langTypeOrder;
-            let langDeliveryStatus;
+            let langOrder
             switch (x.orde_status) {
-              case "pending": langOrdeStatus = 'Pendiente'
+              case 'pending':
+                langOrder = 'Pendiente'
                 break
-              case "to be approved": langOrdeStatus = 'Para ser aprobado'
+              case 'to be approved':
+                langOrder = 'Para ser aprobado'
                 break
-              case "canceled": langOrdeStatus = 'Cancelado'
+              case 'approved':
+                langOrder = 'Aprobado'
                 break
-              default:langOrdeStatus = 'Aprobado'
-              break
+              case 'canceled':
+                langOrder = 'Cancelado'
+                break
             }
-            switch (x.orde_type) {
-              case "pickup": langTypeOrder = 'Retiro'
-                break
-              default:langTypeOrder = 'Entrega'
-              break
-            }
-            switch (x.orde_deliverystatus) {
-              case "to attend": langDeliveryStatus = 'Para asistir'
-                break
-              case "attended": langDeliveryStatus = 'Atendido'
-                break
-              case "to send": langDeliveryStatus = 'Para enviar'
-                break
-              case "sent": langDeliveryStatus = 'Enviado'
-                break
-              default:langDeliveryStatus = 'Entregado'
-              break
-            }
-            x.orde_status = langOrdeStatus
-            x.orde_type = langTypeOrder
-            x.orde_deliverystatus = langDeliveryStatus
-          })*/
+             x.status_orde = langOrder
+          })
         })
         .catch((error) => {
           if (error.response) {

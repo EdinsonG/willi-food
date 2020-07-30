@@ -266,7 +266,7 @@
                   </div>
                 </template> -->
                 <template #item.url="{ item }">
-                  <a href="#" @click="storeBranches(item.user_id)"><v-icon>store</v-icon>Sucursales asociadas</a> {{ item.user_id }}
+                  <a href="#" @click="storeBranches(item.user_id)"><v-icon>store</v-icon>Sucursales asociadas</a>
                 </template>
                 <template v-slot:item.action="{ item }">
                   <v-btn

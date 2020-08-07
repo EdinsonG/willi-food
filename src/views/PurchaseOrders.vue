@@ -267,7 +267,7 @@
                         <v-col cols="12" sm="3">
                           <v-text-field
                             v-model="editedItem.orde_deliverytip"
-                            label="orde_deliverytip"
+                            label="Propina"
                             :rules="rules.deliverytip"
                             required
                             type="text"
@@ -770,7 +770,6 @@ export default {
       this.loading = true
     },
     getColor(status_orde) {
-      console.log(status_orde)
       if (status_orde == 'pending') return 'orange--text'
       else if (status_orde == 'to be approved') return 'purple--text'
       else if (status_orde == 'canceled') return 'pink--text'

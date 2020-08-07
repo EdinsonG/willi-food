@@ -69,7 +69,7 @@
                             label="Logo"
                             :disabled="this.flow === 'delete' || text"
                             show-size
-                          ></v-file-input> -->
+                          ></v-file-input>-->
                           <v-text-field
                             v-model="editedItem.stor_logo"
                             label="Logo"
@@ -99,7 +99,6 @@
                             :disabled="this.flow === 'delete' || text"
                             @change="changeSwitch(editedItem.stor_outstanding, 'outstanding')"
                           ></v-switch>
-
 
                           <!-- <template>
                           <v-row>
@@ -190,11 +189,16 @@
                         </v-col>
                         <v-col cols="12" sm="12">
                           <span>Color</span>
-                          <v-color-picker  width="900" hide-mode-switch :mode.sync="mode" v-model="editedItem.stor_color"
+                          <v-color-picker
+                            width="900"
+                            hide-mode-switch
+                            :mode.sync="mode"
+                            v-model="editedItem.stor_color"
                             label="Color"
                             :rules="rules.color"
                             type="text"
-                            :disabled="this.flow === 'delete' || text"></v-color-picker>
+                            :disabled="this.flow === 'delete' || text"
+                          ></v-color-picker>
                         </v-col>
                         <v-col cols="12" sm="12">
                           <!-- <v-file-input
@@ -206,7 +210,7 @@
                             label="Documento"
                             :disabled="this.flow === 'delete' || text"
                             show-size
-                          ></v-file-input> -->
+                          ></v-file-input>-->
 
                           <v-text-field
                             v-model="editedItem.stor_document"
@@ -260,13 +264,30 @@
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
                 </template>
+
+                <template v-slot:item.active_store="{ item }">
+                  <span v-if="item.stor_active === false">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.stor_active)">mdi-minus-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.active_store }}
+                  </span>
+                  <span v-else-if="item.stor_active === true">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.stor_active)">mdi-check-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.active_store }}
+                  </span>
+                </template>
                 <!-- <template v-slot:item.url="{ item }">
                   <div class="text-truncate" style="width: 180px">
                     <a :href="item.URL" target="_new">{{item.URL}}</a>
                   </div>
-                </template> -->
+                </template>-->
                 <template #item.url="{ item }">
-                  <a href="#" @click="storeBranches(item.user_id)"><v-icon>store</v-icon>Sucursales asociadas</a>
+                  <a href="#" @click="storeBranches(item.user_id)">
+                    <v-icon>store</v-icon>Sucursales asociadas
+                  </a>
                 </template>
                 <template v-slot:item.action="{ item }">
                   <v-btn
@@ -353,9 +374,7 @@ export default {
         // typepublication: [
         //   v => !!v || 'Este campo es requerido',
         // ],
-        typestore: [
-          (v) => !!v || 'Este campo es requerido',
-        ],
+        typestore: [(v) => !!v || 'Este campo es requerido'],
         // pickup: [
         //   v => !!v || 'Este campo es requerido',
         // ],
@@ -366,9 +385,7 @@ export default {
         // prod_active: [
         //   v => !!v || 'Este campo es requerido',
         // ],
-        color: [
-          (v) => v.length <= 50 || 'El campo debe tener menos de 50 caracteres.',
-        ],
+        color: [(v) => v.length <= 50 || 'El campo debe tener menos de 50 caracteres.'],
         document: [
           (v) => !!v || 'Este campo es requerido',
           (v) => (v && v.length > 0) || 'Este campo es requerido',
@@ -378,13 +395,13 @@ export default {
       mode: 'hexa',
       modes: ['hexa'],
       selectDelivery: [
-        {code: 'p', name: 'Propio'},
-        {code: 'e', name: 'Externo'},
-        {code: 'a', name: 'Ambos'}
+        { code: 'p', name: 'Propio' },
+        { code: 'e', name: 'Externo' },
+        { code: 'a', name: 'Ambos' },
       ],
-      selectTypeStore:  [
-        {code: 't', name: 'Transable'},
-        {code: 'c', name: 'Cotización'}
+      selectTypeStore: [
+        { code: 't', name: 'Transable' },
+        { code: 'c', name: 'Cotización' },
       ],
       loading: false,
       dialog: false,
@@ -407,7 +424,7 @@ export default {
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
-      editedItem: {}
+      editedItem: {},
     }
   },
   created() {
@@ -421,7 +438,7 @@ export default {
         .then((response) => {
           this.myStores = response.data.stores
           let myStores = response.data.stores
-          myStores.map(function (x) {
+          myStores.map(function(x) {
             let langType
             switch (x.stor_active) {
               case true:
@@ -470,12 +487,12 @@ export default {
     handleEdit(flow, item) {
       this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
-      this.stor_outstanding = (this.editedItem.stor_outstanding === true) ? 'Si' : 'No'
-      this.stor_typepublication = (this.editedItem.stor_typepublication === true) ? 'Orgánica' : 'Privada'
-      this.stor_pickup = (this.editedItem.stor_pickup === true) ? 'Si' : 'No'
-      this.stor_outstanding = (this.editedItem.stor_outstanding === true) ? 'Si' : 'No'
-      this.stor_supervision = (this.editedItem.stor_supervision === true) ? 'Si' : 'No'
-      this.stor_active = (this.editedItem.stor_active === true) ? 'Activo' : 'Inactivo'
+      this.stor_outstanding = this.editedItem.stor_outstanding === true ? 'Si' : 'No'
+      this.stor_typepublication = this.editedItem.stor_typepublication === true ? 'Orgánica' : 'Privada'
+      this.stor_pickup = this.editedItem.stor_pickup === true ? 'Si' : 'No'
+      this.stor_outstanding = this.editedItem.stor_outstanding === true ? 'Si' : 'No'
+      this.stor_supervision = this.editedItem.stor_supervision === true ? 'Si' : 'No'
+      this.stor_active = this.editedItem.stor_active === true ? 'Activo' : 'Inactivo'
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
@@ -496,7 +513,7 @@ export default {
       stor_color,
       stor_document
     ) {
-      let typepublication = ( stor_typepublication === true) ? 'open' : 'close'
+      let typepublication = stor_typepublication === true ? 'open' : 'close'
       axios
         .put('http://store.malllikeu.com/api/stores/' + id, {
           user_id: user_id,
@@ -533,27 +550,32 @@ export default {
       this.text = true
       this.loading = true
     },
-    async changeSwitch (swt, flow) {
+    async changeSwitch(swt, flow) {
       switch (flow) {
         case 'outstanding':
-          this.stor_outstanding = (swt === true) ? 'Si' : 'No'
+          this.stor_outstanding = swt === true ? 'Si' : 'No'
           break
         case 'typepublication':
-          this.stor_typepublication = (swt === true) ? 'Orgánica' : 'Privada'
+          this.stor_typepublication = swt === true ? 'Orgánica' : 'Privada'
           break
         case 'pickup':
-          this.stor_pickup = (swt === true) ? 'Si' : 'No'
+          this.stor_pickup = swt === true ? 'Si' : 'No'
           break
         case 'supervision':
-          this.stor_supervision = (swt === true) ? 'Si' : 'No'
+          this.stor_supervision = swt === true ? 'Si' : 'No'
           break
         case 'active':
-          this.stor_active = (swt === true) ? 'Activo' : 'Inactivo'
+          this.stor_active = swt === true ? 'Activo' : 'Inactivo'
       }
     },
-    storeBranches: function (id) {
+    storeBranches: function(id) {
       this.$router.push({ name: 'Branches', params: { id: id } })
-    }
+    },
+
+    getColor(stor_active) {
+      if (stor_active == false) return 'orange--text'
+      else return 'green--text'
+    },
   },
 }
 </script>

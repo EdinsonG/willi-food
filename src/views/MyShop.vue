@@ -492,7 +492,6 @@ export default {
       this.stor_outstanding = this.editedItem.stor_outstanding === true ? 'Si' : 'No'
       this.stor_typepublication = this.editedItem.stor_typepublication === true ? 'Orgánica' : 'Privada'
       this.stor_pickup = this.editedItem.stor_pickup === true ? 'Si' : 'No'
-      this.stor_outstanding = this.editedItem.stor_outstanding === true ? 'Si' : 'No'
       this.stor_supervision = this.editedItem.stor_supervision === true ? 'Si' : 'No'
       this.stor_active = this.editedItem.stor_active === true ? 'Activo' : 'Inactivo'
       // this.editedItem = item || {}

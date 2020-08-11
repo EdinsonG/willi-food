@@ -7,9 +7,9 @@
       <div class="page-wrapper"><router-view /></div>
       <!-- App Footer -->
       <v-footer height="auto" class="white pa-3 app--footer">
-        <span>isocked.com Design &copy; {{ new Date().getFullYear() }}</span>
+        <span>&copy; {{ new Date().getFullYear() }}</span>
         <v-spacer />
-        <span class="caption mr-1">Make With Love</span>
+        <span class="caption mr-1"></span>
         <v-icon color="pink" small>favorite</v-icon>
       </v-footer>
     </v-main>
@@ -47,5 +47,5 @@ export default {
 <style lang="sass" scoped>
 
 .page-wrapper
-  min-height: calc(100vh - 64px - 50px - 81px)
+  min-height: calc(100vh - 64px - 50px - 50px)
 </style>

@@ -30,7 +30,6 @@ const Menu = [
     text: 'Pagos',
     to: '/pagos',
     icon: 'account_balance_wallet',
-    disabled: 'disabled',
   },
 
   { header: 'Tienda' },

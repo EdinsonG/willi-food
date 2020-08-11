@@ -69,7 +69,7 @@ export const protectedRoute = [
       {
         path: '/cuentas-bancarias',
         meta: {
-          title: 'BankAccounts',
+          title: 'Cuentas bancarias',
           group: 'apps',
           icon: 'BankAccounts',
           requiresAuth: true,
@@ -93,6 +93,20 @@ export const protectedRoute = [
           type: route.query.type,
         }),
         component: () => import(/* webpackChunkName: "cuentas" */ '@/views/PurchaseOrders.vue'),
+      },
+      {
+        path: '/pagos',
+        meta: {
+          title: 'Pagos',
+          group: 'apps',
+          icon: 'account_balance_wallet',
+          requiresAuth: true,
+        },
+        name: 'Payments',
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/Payments.vue'),
       },
       {
         path: '/mis-tiendas',

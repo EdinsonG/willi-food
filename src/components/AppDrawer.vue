@@ -7,18 +7,17 @@
     :width="drawWidth"
     :dark="$vuetify.dark"
   >
-    <v-toolbar color="primary darken-1" dark>
-      <img :src="computeLogo" height="36" alt="Vue Material Admin Template" />
-      <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">Administrador</span>
-      </v-toolbar-title>
-    </v-toolbar>
-    <div class="pa-1">
-      <!-- <v-subheader>Sponsor</v-subheader> -->
+    <v-toolbar color="white darken-1 pt-1" dark>
       <a href="/estadisticas">
-        <img src="/static/willi-food.svg" alt="NSD" width="250" />
+        <img src="/static/WiliiUBack.svg" alt="WiliiUBack" width="200" />
       </a>
-    </div>
+    </v-toolbar>
+    <!-- <div class="pa-1">
+      <v-subheader>Sponsor</v-subheader>
+      <a href="/estadisticas">
+        <img src="/static/WiliiUBack.svg" alt="WiliiUBack" width="250" />
+      </a>
+    </div> -->
     <v-list expand dense v-if="items" nav>
       <template v-for="(item, i) in items">
         <v-subheader v-if="item.header" :key="`subheader-${i}`" v-text="item.header" />

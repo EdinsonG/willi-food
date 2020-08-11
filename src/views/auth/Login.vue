@@ -2,7 +2,7 @@
   <v-card class="elevation-1 pa-3 login-card">
     <v-card-text>
       <v-layout align-center justify-center column fill-height>
-        <img src="/static/willi-food.svg" alt="willi-food-img" width="200" height="120" />
+        <img src="/static/WiliiUBack.svg" alt="WiliiUBack-img" width="250" height="120" />
         <h1 class="my-4 secondary--text display-1">Admin</h1>
       </v-layout>
       <!-- <v-alert type="error" dense outlined class="notification is-danger" v-if="error">

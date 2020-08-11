@@ -618,6 +618,7 @@ export default {
       ],
       editedItem: {},
       viewItem: {},
+      userId: this.$session.get('user_id')
     }
   },
   created() {
@@ -625,11 +626,14 @@ export default {
   },
   methods: {
     async getPurchaseOrders() {
+      let userId = this.$session.get('user_id')
+      this.purchaseOrders = []
+      let purchaseOrders = [] 
       axios
-        .get('http://store.malllikeu.com/api/orders')
+        .get('http://store.malllikeu.com/api/orders/' + userId)
         .then((response) => {
-          this.purchaseOrders = response.data.orders
-          let purchaseOrders = response.data.orders
+          this.purchaseOrders = this.purchaseOrders.concat(response.data.order)
+          purchaseOrders = purchaseOrders.concat(response.data.order)
           purchaseOrders.map(function(x) {
             let langOrder
             let langTypeOrder

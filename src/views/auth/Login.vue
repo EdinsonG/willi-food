@@ -84,12 +84,12 @@ export default {
     dialog: false,
     loading: false,
     model: {
-      email: 'jcadiz03@gmail.com',
+      email: 'iclorenzo@gmail.com',
       emailRules: [
         v => !!v || 'Correo electrónico es requerido',
         v => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
       ],
-      password: '12345678',
+      password: 'Cristina.Admin.2020',
       passwordRules: [
         v => !!v || 'La contraseña es requerida',
       ],

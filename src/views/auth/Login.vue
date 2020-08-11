@@ -68,6 +68,15 @@
 
 <script>
 import axios from 'axios'
+
+var config = {
+  headers: {
+     "Content-Type": 'application/json',
+     "X-Requested-With": 'XMLHttpRequest',
+     "Authorization": ''
+   }
+}
+
 export default {
   data: () => ({
     error: '',
@@ -101,6 +110,7 @@ export default {
           this.$session.start()
           this.$session.set('tokenSession', response.data.access_token)
           if (this.$session.exists()) {
+            this.userData()
             this.$router.push('/estadisticas')
           }
         })
@@ -110,16 +120,9 @@ export default {
               case 401:
               case 422:
                 this.error = 'Usuario o contraseña incorrecta'
-                // console.log('response status: ' + error.response.status)
-                // console.log('response data:')
-                // console.log(error.response.data)
-                // console.log('Incorrect login or password')
                 break
               default:
                 this.dialog = true
-                // this.error = error.response.data
-                // console.log(error)
-                // console.log('En estos momentos no podemos atender tu solicitud')
                 break
             }
           }
@@ -130,6 +133,29 @@ export default {
       this.loading = true
       this.getLogin()
     },
+    async userData () {
+      let varToken = this.$session.get('tokenSession')
+      config.headers.Authorization = 'Bearer ' + varToken
+      axios
+        .get('http://auth.malllikeu.com/api/auth/user', config)
+        .then((response) => {
+          this.$session.set('user_id', response.data.id)
+        })
+        .catch((error) => {
+          if (error.response) {
+            switch (error.response.status) {
+              case 401:
+              case 422:
+                this.error = ''
+                break
+              default:
+                this.dialog = true
+                break
+            }
+          }
+        })
+        .finally(() => (this.loading = false))
+    }
   },
 }
 </script>

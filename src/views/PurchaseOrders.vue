@@ -3,7 +3,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h3>Ordenes de compra</h3>
+          <h3>Órdenes de compra</h3>
         </v-flex>
         <v-flex lg12>
           <v-card>
@@ -50,7 +50,7 @@
                             <span>Estatus</span>
                           </div>
                           <div class="v-list-item__content">
-                            <div class="v-list-item__title">{{viewItem.orde_status}}</div>
+                            <div class="v-list-item__title">{{viewItem.status_orde}}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" sm="3">
@@ -106,7 +106,7 @@
                             <span>Tipo de orden</span>
                           </div>
                           <div class="v-list-item__content">
-                            <div class="v-list-item__title">{{viewItem.orde_type}}</div>
+                            <div class="v-list-item__title">{{viewItem.type_orde}}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" sm="3">
@@ -114,7 +114,7 @@
                             <span>Estatus de la entrega</span>
                           </div>
                           <div class="v-list-item__content">
-                            <div class="v-list-item__title">{{viewItem.orde_deliverystatus}}</div>
+                            <div class="v-list-item__title">{{viewItem.deliverystatus_orde}}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" sm="3">
@@ -267,7 +267,7 @@
                         <v-col cols="12" sm="3">
                           <v-text-field
                             v-model="editedItem.orde_deliverytip"
-                            label="orde_deliverytip"
+                            label="Propina"
                             :rules="rules.deliverytip"
                             required
                             type="text"
@@ -424,6 +424,32 @@
               >
                 <template v-slot:item.details="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
+                </template>
+                <template v-slot:item.status_orde="{ item }">
+                  <span v-if="item.orde_status === 'pending'">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.orde_status)">mdi-alert-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.status_orde }}
+                  </span>
+                  <span v-else-if="item.orde_status === 'to be approved'">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.orde_status)">mdi-minus-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.status_orde }}
+                  </span>
+                  <span v-else-if="item.orde_status === 'approved'">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.orde_status)">mdi-check-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.status_orde }}
+                  </span>
+                  <span v-else-if="item.orde_status === 'canceled'">
+                    <v-avatar left>
+                      <v-icon :class="getColor(item.orde_status)">mdi-close-circle-outline</v-icon>
+                    </v-avatar>
+                    {{ item.status_orde }}
+                  </span>
                 </template>
                 <!-- <template v-slot:item.url="{ item }">
                   <div class="text-truncate" style="width: 180px">
@@ -591,7 +617,7 @@ export default {
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
-      viewItem: {}
+      viewItem: {},
     }
   },
   created() {
@@ -604,8 +630,10 @@ export default {
         .then((response) => {
           this.purchaseOrders = response.data.orders
           let purchaseOrders = response.data.orders
-          purchaseOrders.map(function (x) {
+          purchaseOrders.map(function(x) {
             let langOrder
+            let langTypeOrder
+            let langDeliveryStatus
             switch (x.orde_status) {
               case 'pending':
                 langOrder = 'Pendiente'
@@ -620,7 +648,34 @@ export default {
                 langOrder = 'Cancelado'
                 break
             }
-             x.status_orde = langOrder
+            switch (x.orde_type) {
+              case 'pickup':
+                langTypeOrder = 'Retiro'
+                break
+              case 'delivery':
+                langTypeOrder = 'Entrega'
+                break
+            }
+            switch (x.orde_deliverystatus) {
+              case 'to attend':
+                langDeliveryStatus = 'Para asistir'
+                break
+              case 'attended':
+                langDeliveryStatus = 'Atendido'
+                break
+              case 'to send':
+                langDeliveryStatus = 'Para enviar'
+                break
+              case 'sent':
+                langDeliveryStatus = 'Enviado'
+                break
+              case 'delivered':
+                langDeliveryStatus = 'Entregado'
+                break
+            }
+            x.status_orde = langOrder
+            x.type_orde = langTypeOrder
+            x.deliverystatus_orde = langDeliveryStatus
           })
         })
         .catch((error) => {
@@ -713,6 +768,12 @@ export default {
         .finally(() => ((this.loading = false), (this.text = false)))
       this.text = true
       this.loading = true
+    },
+    getColor(status_orde) {
+      if (status_orde == 'pending') return 'orange--text'
+      else if (status_orde == 'to be approved') return 'purple--text'
+      else if (status_orde == 'canceled') return 'pink--text'
+      else return 'green--text'
     },
   },
 }

@@ -693,11 +693,14 @@ export default {
   },
   methods: {
     async getStores() {
+      let userId = this.$session.get('user_id')
+      this.branchOffices = []
+      let branchOffices = [] 
       axios
-        .get('http://store.malllikeu.com/api/store-branches')
+        .get('http://store.malllikeu.com/api/store-branches/' + userId)
         .then((response) => {
-          this.branchOffices = response.data.storeBranches
-          let branchOffices = response.data.storeBranches
+          this.branchOffices = this.branchOffices.concat(response.data.storeBranch)
+          branchOffices = branchOffices.concat(response.data.storeBranch)
           branchOffices.map(function(x) {
             let langType
             switch (x.stbr_pickup) {
@@ -724,10 +727,25 @@ export default {
         .finally(() => (this.loading = false))
     },
     async getStoreBranches() {
+      this.branchOffices = []
+      let branchOffices = []
       axios
         .get('http://store.malllikeu.com/api/store-branches/' + this.str_id)
         .then((response) => {
-          this.branchOffices = response.data.storeBranches
+          this.branchOffices = this.branchOffices.concat(response.data.storeBranch)
+          branchOffices = branchOffices.concat(response.data.storeBranch)
+          branchOffices.map(function(x) {
+            let langType
+            switch (x.stbr_pickup) {
+              case true:
+                langType = 'Si'
+                break
+              default:
+                langType = 'No'
+                break
+            }
+            x.pickup_stbr = langType
+          })
         })
         .catch((error) => {
           if (error.response) {
@@ -869,7 +887,6 @@ export default {
         })
         .catch((error) => {
           if (error.response) {
-            console.log('RESPONSE: ', error.response)
             switch (error.response.status) {
               case 422:
                 this.editError = 'No se pudo agregar'

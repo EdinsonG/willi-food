@@ -432,12 +432,14 @@ export default {
   },
   methods: {
     async getStores() {
+      let userId = this.$session.get('user_id')
       this.myStores = []
+      let myStores = [] 
       axios
-        .get('http://store.malllikeu.com/api/stores')
+        .get('http://store.malllikeu.com/api/stores/' + userId)
         .then((response) => {
-          this.myStores = response.data.stores
-          let myStores = response.data.stores
+          this.myStores = this.myStores.concat(response.data.store)
+          myStores = myStores.concat(response.data.store)
           myStores.map(function(x) {
             let langType
             switch (x.stor_active) {

@@ -130,24 +130,14 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-row class="d-flex align-self-center align-center">
-                            <v-switch
-                              v-model="editedItem.prod_status"
-                              class="pr-1"
-                              label="Estatus: "
-                              :rules="rules.prod_status"
-                              required
-                              type="text"
-                              :disabled="this.flow === 'delete' || text"
-                            ></v-switch>
-                            <!-- ${editedItem.prod_status.toString()}`-->
-                            <label
-                              v-if="editedItem.prod_status === true || editedItem.prod_status === 'available'"
-                            >Disponible</label>
-                            <label
-                              v-if="editedItem.prod_status === false  || editedItem.prod_status === 'selled'"
-                            >No disponible</label>
-                          </v-row>
+                          <v-switch
+                            v-model="editedItem.prod_status"
+                            :label="'Estatus: ' + this.prod_status"
+                            :rules="rules.status"
+                            type="text"
+                            :disabled="this.flow === 'delete' || text"
+                            @change="changeSwitch(editedItem.prod_status, 'active')"
+                          ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="8">
                           <v-text-field
@@ -216,9 +206,7 @@
                       text
                       v-if="this.flow === 'edit'"
                       flat
-                      @click="saveItem(editedItem.id,editedItem.stbr_id, editedItem.stor_id, editedItem.depa_id, editedItem.prod_number, editedItem.prod_name,
-                                     editedItem.prod_description, editedItem.prod_outstanding, editedItem.prod_quantityavailable, editedItem.prod_unitcost, 
-                                     editedItem.prod_condition, editedItem.prod_warranty, editedItem.prod_status, editedItem.prod_topost, editedItem.prod_long, editedItem.prod_width, editedItem.prod_high, editedItem.prod_weight)"
+                      @click="saveItem(editedItem.id,editedItem.stbr_id, editedItem.stor_id, editedItem.depa_id, editedItem.prod_number, editedItem.prod_name, editedItem.prod_description, editedItem.prod_outstanding, editedItem.prod_quantityavailable, editedItem.prod_unitcost, editedItem.prod_condition, editedItem.prod_warranty, editedItem.prod_status, editedItem.prod_topost, editedItem.prod_long, editedItem.prod_width, editedItem.prod_high, editedItem.prod_weight)"
                       :disabled="!isValidEdit"
                       :loading="loading"
                     >Guardar</v-btn>
@@ -440,8 +428,9 @@ export default {
       axios
         .get('http://store.malllikeu.com/api/products')
         .then((response) => {
-          this.productsOffices = response.data.products
-          let productsOffices = response.data.products
+          this.productsOffices = response.data.products.data
+          console.log(this.productsOffices)
+          let productsOffices = response.data.products.data
           productsOffices.map(function(x) {
             let langType
             switch (x.prod_status) {
@@ -491,6 +480,7 @@ export default {
     handleEdit(flow, item) {
       this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
+      this.prod_status = this.editedItem.prod_status === 'available' ? 'Disponible' : 'Agotado'
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
@@ -514,6 +504,7 @@ export default {
       prod_high,
       prod_weight
     ) {
+      let prodstatus = prod_status === 'available' ? 'Disponible' : 'Agotado'
       axios
         .put('http://store.malllikeu.com/api/products/' + id, {
           stbr_id: stbr_id,
@@ -527,7 +518,7 @@ export default {
           unitcost: prod_unitcost,
           condition: prod_condition,
           warranty: prod_warranty,
-          status: prod_status,
+          prodstatus: prodstatus,
           topost: prod_topost,
           long: prod_long,
           width: prod_width,
@@ -552,6 +543,13 @@ export default {
         .finally(() => ((this.loading = false), (this.text = false)))
       this.text = true
       this.loading = true
+    },
+    async changeSwitch(swt, flow) {
+      switch (flow) {
+        case 'active':
+          this.prodstatus = swt === 'available' ? 'Disponible' : 'Agotado'
+          break
+      }
     },
     getColor(product_order) {
       if (product_order == 'selled') return 'pink--text'

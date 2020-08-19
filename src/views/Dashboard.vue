@@ -42,64 +42,104 @@
 
 <script>
 import API from '@/api'
+import axios from 'axios'
 
 import Material from 'vuetify/es5/util/colors'
 export default {
   data: () => ({
     color: Material,
     selectedTab: 'tab-1',
-    trending: [
-      {
-        subheading: 'Pendiente',
-        headline: '15+',
-        icon: {
-          label: 'mdi-alert-circle-outline',
-          color: 'orange',
-        },
-        linear: {
-          value: 2,
-          color: 'info',
-        },
-      },
-      {
-        subheading: 'Aprobada',
-        headline: '15+',
-        icon: {
-          label: 'mdi-check-circle-outline',
-          color: 'green',
-        },
-        linear: {
-          value: 2,
-          color: 'success',
-        },
-      },
-      {
-        subheading: 'Rechazada',
-        headline: '15+',
-        icon: {
-          label: 'mdi-close-circle-outline',
-          color: 'pink',
-        },
-        linear: {
-          value: 0,
-          color: 'error',
-        },
-      },
-    ],
+    purchaseOrders: [],
+    pending: 0,
+    canceled: 0,
+    approved: 0,
+    trending: [],
   }),
   computed: {
-    activity() {
-      return API.getActivity()
-    },
-    posts() {
-      return API.getPost(3)
-    },
-    siteTrafficData() {
-      return API.getMonthVisit
-    },
+    // activity() {
+    //   return API.getActivity()
+    // },
+    // posts() {
+    //   return API.getPost(3)
+    // },
+    // siteTrafficData() {
+    //   return API.getMonthVisit
+    // },
     locationData() {
       return API.getLocation
     },
   },
+  created: function () {
+    this.getPurchaseOrders()
+  },
+  methods: {
+    async getPurchaseOrders() {
+      let userId = this.$session.get('user_id')
+      axios.get('http://store.malllikeu.com/api/orders/' + userId)
+        .then((response) => {
+          let purchaseOrders = response.data.order
+          for (let index in purchaseOrders) {
+            if (purchaseOrders[index].orde_status === 'pending') {
+              this.pending++
+            }
+            if (purchaseOrders[index].orde_status === 'approved') {
+              this.approved++
+            }
+            if (purchaseOrders[index].orde_status === 'canceled') {
+              this.canceled++
+            }
+          }
+          this.trending = [
+                            {
+                        subheading: 'Pendiente',
+                        headline: '15+',
+                        icon: {
+                          label: 'mdi-alert-circle-outline',
+                          color: 'orange',
+                        },
+                        linear: {
+                          value: this.pending,
+                          color: 'info',
+                        },
+                      },
+                      {
+                        subheading: 'Aprobada',
+                        headline: '15+',
+                        icon: {
+                          label: 'mdi-check-circle-outline',
+                          color: 'green',
+                        },
+                        linear: {
+                          value: this.approved,
+                          color: 'success',
+                        },
+                      },
+                      {
+                        subheading: 'Rechazada',
+                        headline: '15+',
+                        icon: {
+                          label: 'mdi-close-circle-outline',
+                          color: 'pink',
+                        },
+                        linear: {
+                          value: this.canceled,
+                          color: 'error',
+                        }
+                      }
+          ]
+        })
+        .catch((error) => {
+          if (error.response) {
+            switch (error.response.status) {
+              case 401:
+              case 402:
+                break
+              default:
+            }
+          }
+        })
+        .finally(() => (this.loading = false))
+    }
+  }
 }
 </script>

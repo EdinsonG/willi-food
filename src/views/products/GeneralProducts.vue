@@ -429,7 +429,6 @@ export default {
         .get('http://store.malllikeu.com/api/products')
         .then((response) => {
           this.productsOffices = response.data.products.data
-          console.log(this.productsOffices)
           let productsOffices = response.data.products.data
           productsOffices.map(function(x) {
             let langType
@@ -480,7 +479,9 @@ export default {
     handleEdit(flow, item) {
       this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
+      console.log(this.editedItem)
       this.prod_status = this.editedItem.prod_status === 'available' ? 'Disponible' : 'Agotado'
+      this.editedItem.prod_status = this.editedItem.prod_status === 'available' ? true : false
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
@@ -504,9 +505,9 @@ export default {
       prod_high,
       prod_weight
     ) {
-      let prodstatus = prod_status === 'available' ? 'Disponible' : 'Agotado'
-      axios
-        .put('http://store.malllikeu.com/api/products/' + id, {
+      console.log('AQUI')
+      var prodstatus = prod_status === true || 'available' ? 'Disponible' : 'Agotado'
+      axios.put('http://store.malllikeu.com/api/products/' + id, {
           stbr_id: stbr_id,
           stor_id: stor_id,
           depa_id: depa_id,
@@ -518,7 +519,7 @@ export default {
           unitcost: prod_unitcost,
           condition: prod_condition,
           warranty: prod_warranty,
-          prodstatus: prodstatus,
+          status: prodstatus,
           topost: prod_topost,
           long: prod_long,
           width: prod_width,
@@ -544,12 +545,8 @@ export default {
       this.text = true
       this.loading = true
     },
-    async changeSwitch(swt, flow) {
-      switch (flow) {
-        case 'active':
-          this.prodstatus = swt === 'available' ? 'Disponible' : 'Agotado'
-          break
-      }
+    async changeSwitch(swt) {
+      this.prod_status = swt === true ? 'Disponible' :  'Agotado'
     },
     getColor(product_order) {
       if (product_order == 'selled') return 'pink--text'

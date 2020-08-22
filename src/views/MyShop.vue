@@ -261,11 +261,11 @@
                 :sort-by="['id']"
                 loading-text="Cargando... Por favor espere"
               >
-                <template v-slot:item.details="{ item }">
+                <template v-slot:[`item.details`]="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
                 </template>
 
-                <template v-slot:item.active_store="{ item }">
+                <template v-slot:[`item.active_store`]="{ item }">
                   <span v-if="item.stor_active === false">
                     <v-avatar left>
                       <v-icon :class="getColor(item.stor_active)">mdi-minus-circle-outline</v-icon>
@@ -289,7 +289,7 @@
                     <v-icon>store</v-icon>Sucursales asociadas
                   </a>
                 </template>
-                <template v-slot:item.action="{ item }">
+                <template v-slot:[`item.action`]="{ item }">
                   <v-btn
                     depressed
                     text

@@ -76,7 +76,6 @@ const Menu = [
     text: 'Servicios',
     to: '/servicios',
     icon: 'widgets',
-    disabled: 'disabled',
   },
   {
     text: 'Publicidades',

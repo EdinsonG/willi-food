@@ -226,18 +226,16 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()" :disabled="text">Cancelar</v-btn>
+                    <v-btn color="grey" text @click="handleEdit()" :disabled="text">Cancelar</v-btn>
                     <v-btn
                       color="red--text lighten-5"
                       v-if="this.flow === 'delete'"
-                      flat
                       @click="deleteItem(editedItem.id)"
                     >Eliminar</v-btn>
                     <v-btn
                       color="primary"
                       text
                       v-if="this.flow === 'edit'"
-                      flat
                       @click="saveItem(editedItem.id, editedItem.user_id, editedItem.curr_id, editedItem.stor_name, editedItem.stor_logo, editedItem.stor_description, editedItem.stor_outstanding, editedItem.stor_typepublication, editedItem.stor_typestore, editedItem.stor_pickup, editedItem.stor_delivery, editedItem.stor_supervision, editedItem.stor_active, editedItem.stor_color, editedItem.stor_document,)"
                       :disabled="!isValidEdit"
                       :loading="loading"

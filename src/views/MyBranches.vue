@@ -228,11 +228,10 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleCreate()" :disabled="text">Cancelar</v-btn>
+                    <v-btn color="grey" text @click="handleCreate()" :disabled="text">Cancelar</v-btn>
                     <v-btn
                       color="primary"
                       text
-                      flat
                       @click="newItem()"
                       :loading="loading"
                       :disabled="!isValid"
@@ -452,11 +451,10 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()" :disabled="text">Cancelar</v-btn>
+                    <v-btn color="grey" text @click="handleEdit()" :disabled="text">Cancelar</v-btn>
                     <v-btn
                       color="red--text lighten-5"
                       v-if="this.flow === 'delete'"
-                      flat
                       @click="deleteItem(editedItem.id)"
                     >Eliminar</v-btn>
                     <v-btn

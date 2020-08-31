@@ -3,9 +3,9 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h3>Órdenes de compra</h3>
+          <h3>Servicios</h3>
         </v-flex>
-        <v-flex lg12>
+        <v-flex lg12 class="d-print-none">
           <v-card>
             <v-toolbar flat color="white">
               <v-text-field
@@ -166,245 +166,6 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialog" max-width="800px">
-                <!-- <template v-slot:activator="{ on }">
-                  <div class="d-flex">
-                    <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
-                      <v-icon left>add</v-icon>Nueva
-                    </v-btn>
-                  </div>
-                </template>-->
-                <v-card>
-                  <v-card-title color="primary">
-                    <span
-                      v-if="editedItem.id && this.flow === 'edit'"
-                    >Editar orden: {{editedItem.id}}</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-form v-model="isValidEdit">
-                      <v-row>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.curr_id"
-                            label="Moneda de venta"
-                            :rules="rules.curr_id"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-menu
-                            v-model="ordedate"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="editedItem.orde_date"
-                                label="Fecha de orden"
-                                prepend-icon="event"
-                                :rules="rules.date"
-                                readonly
-                                required
-                                v-bind="attrs"
-                                v-on="on"
-                                :disabled="text"
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              v-model="editedItem.orde_date"
-                              locale="es-es"
-                              @input="ordedate = false"
-                            ></v-date-picker>
-                          </v-menu>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-select
-                            v-model="editedItem.orde_status"
-                            :items="selectEstatus"
-                            item-text="name"
-                            item-value="code"
-                            label="Estatus"
-                            :rules="rules.status"
-                            required
-                            :disabled="text"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_subtotal"
-                            label="Subtotal"
-                            :rules="rules.subtotal"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_tax"
-                            label="IVA"
-                            :rules="rules.tax"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_deliverycost"
-                            label="Costo de la entrega"
-                            :rules="rules.deliverycost"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_deliverytip"
-                            label="Propina"
-                            :rules="rules.deliverytip"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_discount"
-                            label="Descuento"
-                            :rules="rules.discount"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_total"
-                            label="Total"
-                            :rules="rules.total"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-select
-                            v-model="editedItem.orde_type"
-                            :items="selectTypeOrder"
-                            item-text="name"
-                            item-value="code"
-                            label="Tipo de orden"
-                            :rules="rules.type"
-                            required
-                            :disabled="text"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-select
-                            v-model="editedItem.orde_deliverystatus"
-                            :items="selectDeliveryStatus"
-                            item-text="name"
-                            item-value="code"
-                            label="Estatus de la entrega"
-                            :rules="rules.deliverystatus"
-                            required
-                            :disabled="text"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-menu
-                            v-model="deliverydate"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="editedItem.orde_deliverydate"
-                                label="Fecha de la entrega"
-                                :rules="rules.deliverydate"
-                                prepend-icon="event"
-                                readonly
-                                required
-                                v-bind="attrs"
-                                v-on="on"
-                                :disabled="text"
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              v-model="editedItem.orde_deliverydate"
-                              locale="es-es"
-                              @input="deliverydate = false"
-                            ></v-date-picker>
-                          </v-menu>
-                        </v-col>
-                        <v-col cols="12" sm="3">
-                          <v-text-field
-                            v-model="editedItem.orde_deliverynumber"
-                            label="Número de la entrega"
-                            :rules="rules.deliverynumber"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="9">
-                          <v-text-field
-                            v-model="editedItem.orde_deliverycompany"
-                            label="Compañia de entrega"
-                            :rules="rules.deliverycompany"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="12">
-                          <v-text-field
-                            v-model="editedItem.orde_deliveryQR"
-                            label="QR de la entrega"
-                            :rules="rules.deliveryQR"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="12">
-                          <v-text-field
-                            v-model="editedItem.orde_comment"
-                            label="Comentario"
-                            :rules="rules.comment"
-                            required
-                            type="text"
-                            :disabled="text"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="grey" text @click="handleEdit()" :disabled="text">Cancelar</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      v-if="this.flow === 'edit'"
-                      @click="saveItem(editedItem.id,editedItem.user_id,editedItem.user_id2,editedItem.stbr_id,editedItem.stor_id,editedItem.curr_id,editedItem.orde_date,editedItem.orde_status,editedItem.orde_subtotal,editedItem.orde_tax,editedItem.orde_deliverycost,editedItem.orde_deliverytip,editedItem.orde_discount,editedItem.orde_total,editedItem.orde_type,editedItem.orde_deliverystatus,editedItem.orde_deliverydate,editedItem.orde_deliverynumber,editedItem.orde_deliverycompany,editedItem.orde_deliveryQR,editedItem.orde_comment,)"
-                      :disabled="!isValidEdit"
-                      :loading="loading"
-                    >Guardar</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-
               <v-btn icon>
                 <v-icon>filter_list</v-icon>
               </v-btn>
@@ -414,7 +175,7 @@
               <v-data-table
                 :headers="fields"
                 :search="search"
-                :items="purchaseOrders"
+                :items="Services"
                 class="elevation-1"
                 item-key="name"
                 loading="true"
@@ -468,22 +229,185 @@
                   >
                     <v-icon>remove_red_eye</v-icon>
                   </v-btn>
-                  <v-btn
-                    depressed
-                    text
-                    icon
-                    fab
-                    dark
-                    color="teal"
-                    small
-                    @click="handleEdit('edit', item)"
-                  >
-                    <v-icon>edit</v-icon>
-                  </v-btn>
                 </template>
               </v-data-table>
             </v-card-text>
           </v-card>
+        </v-flex>
+        <v-flex class="d-print-table">
+          <template>
+            <v-card>
+              <v-toolbar
+                color="primary"
+                dark
+                flat
+              >
+                <v-icon>mdi-silverware</v-icon>
+                <v-toolbar-title>Factura</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <a href="javascript:window.print()"  id="print-button" class="d-print-none"><v-btn
+                  class="grey--text"
+                  color="white darken-1"
+                  depressed
+                >
+                  Imprimir
+                  <v-icon right>mdi-printer</v-icon>
+                </v-btn></a>
+              </v-toolbar>
+
+              <v-divider></v-divider>
+
+              <v-container class="white lighten-5 utility-bill">
+                <v-row no-gutters>
+                  <v-col cols="12" sm="6" >
+                    <v-simple-table class="border-table-gray">
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium col-1" lg="2">Plataforma:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium ">Cliente:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                  <v-spacer></v-spacer>
+
+                  <v-col cols="12" sm="4">
+                    <v-simple-table class="border-table-gray">
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium col-1">Fecha:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium">Nro. Orden:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium">Estatus:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                </v-row>
+                <v-row no-gutters class="d-flex align-center">
+                  <v-col cols="12" sm="6" class="border-table-gray">
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium col-5">Facturación #:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                    <v-simple-table class="border-top-gray">
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium ">Período de facturación</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                    <v-simple-table class="border-top-gray">
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium col-1">Inicia:</td>
+                            <td></td>
+                            <td class="font-weight-medium col-1">Finaliza:</td>
+                            <td class=""></td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                </v-row>
+              </v-container>
+
+              <v-container class="white lighten-5 utility-bill">
+                <v-row no-gutters>
+                  <v-col cols="12" sm="12">
+                    <v-simple-table class="border-table-gray">
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left col-1">Item</th>
+                            <th class="text-left">Descripción</th>
+                            <th class="text-left col-1">Cantidad</th>
+                            <th class="text-left col-2">Subtotal</th>
+                            <th class="text-left col-2">Total</th>
+                          </tr>
+                          </thead>
+                        <tbody >
+                          <tr>
+                            <td>1</td>
+                            <td>Lorem Ipsum</td>
+                            <td>1</td>
+                            <td>Lorem Ipsum</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Lorem Ipsum</td>
+                            <td>1</td>
+                            <td>Lorem Ipsum</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                </v-row>
+              </v-container>
+
+              <v-container class="white lighten-5 px-5">
+                <v-row no-gutters>
+                  <v-col cols="12" sm="6" >
+                    <div class="font-weight-medium">Comentarios</div>
+                    <p class="grey--text text-caption border-top-gray pt-5">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it?</p>
+                  </v-col>
+                  <v-spacer></v-spacer>
+
+                  <v-col cols="12" sm="4" class="utility-bill">
+                    <v-simple-table class="border-table-gray">
+                      <template v-slot:default>
+                        <tbody >
+                          <tr>
+                            <td class="font-weight-medium">Subtotal:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium">Impuesto:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium">Descuento:</td>
+                            <td>Lorem Ipsum</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-medium">Total:</td>
+                            <td>t</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </template>
         </v-flex>
       </v-layout>
     </v-container>
@@ -493,12 +417,12 @@
 <script>
 import axios from 'axios'
 
-const purchaseOrders = []
+const Services = []
 
 export default {
   data() {
     return {
-      purchaseOrders: purchaseOrders,
+      Services: Services,
       flow: '',
       search: '',
 
@@ -527,7 +451,6 @@ export default {
       isValidEdit: true,
       dialogView: false,
       loading: false,
-      dialog: false,
       status: false,
       ordedate: false,
       deliverydate: false,
@@ -602,38 +525,41 @@ export default {
           value: 'id',
         },
         {
-          text: 'Fecha',
-          value: 'orde_date',
+          text: 'Plataforma',
+          value: 'plat_name',
         },
         {
           text: 'Estatus',
           value: 'status_orde',
         },
         {
-          text: 'Total',
-          value: 'orde_total',
+          text: 'Inicio y Fin',
+          value: 'invo_stardate | invo_enddate',
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
       viewItem: {},
-      userId: this.$session.get('user_id')
+      userId: this.$session.get('user_id'),
     }
   },
   created() {
-    this.getPurchaseOrders()
+    this.getServices()
   },
   methods: {
-    async getPurchaseOrders() {
+    async getServices() {
       let userId = this.$session.get('user_id')
-      this.purchaseOrders = []
-      let purchaseOrders = [] 
+      this.Services = []
+      let Services = []
       axios
-        .get('http://store.malllikeu.com/api/orders/' + userId)
+        .get('http://store.malllikeu.com/api/services')
         .then((response) => {
-          this.purchaseOrders = this.purchaseOrders.concat(response.data.order)
-          purchaseOrders = purchaseOrders.concat(response.data.order)
-          purchaseOrders.map(function(x) {
+          this.Services = this.Services.concat(response.data.services)
+          Services = Services.concat(response.data.services)
+
+          console.log(this.Services);
+          console.log(userId);
+          Services.map(function(x) {
             let langOrder
             let langTypeOrder
             let langDeliveryStatus
@@ -700,78 +626,7 @@ export default {
       this.dialogView = !this.dialogView
     },
 
-    handleEdit(flow, item) {
-      this.flow = flow
-      this.editedItem = Object.assign(this.editedItem, item) || {}
-      // this.editedItem = item || {}
-      this.dialog = !this.dialog
-    },
 
-    async saveItem(
-      id,
-      stor_id,
-      user_id,
-      user_id2,
-      stbr_id,
-      curr_id,
-      orde_date,
-      orde_status,
-      orde_subtotal,
-      orde_tax,
-      orde_deliverycost,
-      orde_deliverytip,
-      orde_discount,
-      orde_total,
-      orde_type,
-      orde_deliverystatus,
-      orde_deliverydate,
-      orde_deliverynumber,
-      orde_deliverycompany,
-      orde_deliveryQR,
-      orde_comment
-    ) {
-      axios
-        .put('http://store.malllikeu.com/api/orders/' + id, {
-          stor_id: stor_id,
-          user_id: user_id,
-          user_id2: user_id2,
-          stbr_id: stbr_id,
-          curr_id: curr_id,
-          date: orde_date,
-          status: orde_status,
-          subtotal: orde_subtotal,
-          tax: orde_tax,
-          deliverycost: orde_deliverycost,
-          deliverytip: orde_deliverytip,
-          discount: orde_discount,
-          total: orde_total,
-          type: orde_type,
-          deliverystatus: orde_deliverystatus,
-          deliverydate: orde_deliverydate,
-          deliverynumber: orde_deliverynumber,
-          deliverycompany: orde_deliverycompany,
-          deliveryQR: orde_deliveryQR,
-          comment: orde_comment,
-        })
-        .then((response) => {
-          console.log('RESPONSE: ', response.data.message)
-          this.getPurchaseOrders()
-          this.dialog = !this.dialog
-        })
-        .catch((error) => {
-          if (error.response) {
-            switch (error.response.status) {
-              case 422:
-                this.editError = 'No se pudo editar'
-                break
-              default:
-            }
-          }
-        })
-        .finally(() => ((this.loading = false), (this.text = false)))
-      this.text = true
-      this.loading = true
-    },
     getColor(status_orde) {
       if (status_orde == 'pending') return 'orange--text'
       else if (status_orde == 'to be approved') return 'purple--text'
@@ -781,3 +636,5 @@ export default {
   },
 }
 </script>
+
+

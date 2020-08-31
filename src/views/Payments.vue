@@ -162,7 +162,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleView()" :disabled="text">Cerrar</v-btn>
+                    <v-btn color="grey" text @click="handleView()" :disabled="text">Cerrar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -182,10 +182,10 @@
                 :sort-by="['id']"
                 loading-text="Cargando... Por favor espere"
               >
-                <template v-slot:item.details="{ item }">
+                <template v-slot:[`item.details`]="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
                 </template>
-                <template v-slot:item.status_orde="{ item }">
+                <template v-slot:[`item.status_orde`]="{ item }">
                   <span v-if="item.orde_status === 'pending'">
                     <v-avatar left>
                       <v-icon :class="getColor(item.orde_status)">mdi-alert-circle-outline</v-icon>
@@ -216,7 +216,7 @@
                     <a :href="item.URL" target="_new">{{item.URL}}</a>
                   </div>
                 </template>-->
-                <template v-slot:item.action="{ item }">
+                <template v-slot:[`item.action`]="{ item }">
                   <v-btn
                     depressed
                     text

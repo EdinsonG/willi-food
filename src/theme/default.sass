@@ -132,4 +132,44 @@ h5
 .app--toolbar
   .v-toolbar__extension
     padding: 0 !important
-    
+
+.utility-bill .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
+  background: #fff
+
+.border-table-gray
+  border: 1px solid #c4c4c4 !important
+  border-radius: 1px
+
+.border-right-gray
+  border-right: 1px solid #c4c4c4 !important
+
+.border-top-gray
+  border-top: 1px solid #c4c4c4 !important
+  border-radius: 0
+
+.utility-bill table
+  td
+    & + td
+      border-left: 1px solid #c4c4c4 !important
+      
+.utility-bill table
+  th
+    & + th
+      border-left: 1px solid #c4c4c4 !important
+
+@media print
+  .v-main
+    padding: 20px !important
+  @page
+    margin: 0
+  table
+    border: solid black !important
+    border-width: 1px 0 0 1px !important
+    border-bottom-style: none
+  th, td
+    border: solid black !important
+    border-width: 0 1px 1px 0 !important
+    border-bottom-style: none
+  
+  
+

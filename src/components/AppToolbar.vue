@@ -1,5 +1,5 @@
-<template>
-  <v-app-bar color="primary" dark app>
+<template class="d-print-none">
+  <v-app-bar color="primary" dark app class="d-print-none">
     <v-app-bar-nav-icon @click="handleDrawerToggle" />
     <v-spacer />
     <v-row justify="center">
@@ -36,7 +36,7 @@
         </template> -->
         <notification-list></notification-list>
       </v-menu>
-      <v-menu offset-y origin="center center" transition="scale-transition">
+      <v-menu offset-y origin="center center" transition="scale-transition" class="d-print-none">
         <template v-slot:activator="{ on }">
           <v-btn icon large text slot="activator" v-on="on">
             <v-avatar size="30px">
@@ -66,7 +66,7 @@
         </v-list>
       </v-menu>
     </v-toolbar-items>
-    <v-toolbar dense slot="extension" color="white" light>
+    <v-toolbar dense slot="extension" color="white" light class="d-print-none">
       <v-icon>mdi-home</v-icon>
       <v-breadcrumbs :items="breadcrumbs" class="pa-3"></v-breadcrumbs>
       <v-spacer></v-spacer>

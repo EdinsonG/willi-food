@@ -1,7 +1,7 @@
-<template>
+<template class="d-print-none">
   <v-navigation-drawer
     app
-    class="app--drawer"
+    class="app--drawer d-print-none"
     :mini-variant.sync="mini"
     v-model="drawer"
     :width="drawWidth"

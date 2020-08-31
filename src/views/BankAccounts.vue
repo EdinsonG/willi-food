@@ -45,9 +45,9 @@
                         <v-row>
                             <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="name"
+                                v-model="acco_name"
                                 label="Alias"
-                                :rules="rules.name"
+                                :rules="rules.acco_name"
                                 required
                                 type="text"
                                 :disabled="text"
@@ -55,23 +55,24 @@
                             </v-col>
                             <v-col cols="12" sm="8">
                             <v-select
-                              v-model="bankname"
+                              v-model="acco_bankname"
                               :items="selectNameBank"
                               item-text="name"
                               item-value="code"
                               label="Nombre del banco"
-                              :rules="rules.bankname"
+                              :rules="rules.acco_bankname"
                               required
                               :disabled="text"
                             ></v-select>
                             </v-col>
                             <v-col cols="12" sm="12">
                             <v-text-field
-                                v-model="numberaccount"
+                                v-model="acco_numberaccount"
                                 label="Número de cuenta"
-                                :rules="rules.numberaccount"
+                                :rules="rules.acco_numberaccount"
                                 required
                                 type="text"
+                                :maxlength=20
                                 :disabled="text"
                             ></v-text-field>
                             </v-col>
@@ -82,9 +83,9 @@
                         <v-row>
                             <v-col cols="12" sm="6">
                             <v-text-field
-                                v-model="nameaccount"
+                                v-model="acco_nameaccount"
                                 label="Nombre del titular"
-                                :rules="rules.nameaccount"
+                                :rules="rules.acco_nameaccount"
                                 required
                                 type="text"
                                 :disabled="text"
@@ -92,9 +93,9 @@
                             </v-col>
                             <v-col cols="12" sm="6">
                             <v-text-field
-                                v-model="email"
+                                v-model="acco_email"
                                 label="Correo electrónico"
-                                :rules="rules.email"
+                                :rules="rules.acco_email"
                                 required
                                 type="text"
                                 :disabled="text"
@@ -113,10 +114,10 @@
                             </v-col>
                             <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="phone"
+                                v-model="acco_phone"
                                 label="Número de teléfono"
                                 placeholder="2121234567"
-                                :rules="rules.phone"
+                                :rules="rules.acco_phone"
                                 required
                                 type="text"
                                 :disabled="text"
@@ -160,9 +161,9 @@
                         <v-row>
                             <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="editedItem.name"
+                                v-model="editedItem.acco_name"
                                 label="Alias"
-                                :rules="rules.name"
+                                :rules="rules.acco_name"
                                 required
                                 type="text"
                                 :disabled="this.flow === 'delete' || text"
@@ -170,21 +171,21 @@
                             </v-col>
                             <v-col cols="12" sm="8">
                             <v-select
-                              v-model="editedItem.bankname"
+                              v-model="editedItem.acco_bankname"
                               :items="selectNameBank"
                               item-text="name"
                               item-value="code"
                               label="Nombre del banco"
-                              :rules="rules.bankname"
+                              :rules="rules.acco_bankname"
                               required
                               :disabled="this.flow === 'delete' || text"
                             ></v-select>
                             </v-col>
                             <v-col cols="12" sm="12">
                             <v-text-field
-                                v-model="editedItem.numberaccount"
+                                v-model="editedItem.acco_numberaccount"
                                 label="Número de cuenta"
-                                :rules="rules.numberaccount"
+                                :rules="rules.acco_numberaccount"
                                 required
                                 type="text"
                                 :disabled="this.flow === 'delete' || text"
@@ -197,9 +198,9 @@
                         <v-row>
                             <v-col cols="12" sm="6">
                             <v-text-field
-                                v-model="editedItem.nameaccount"
+                                v-model="editedItem.acco_nameaccount"
                                 label="Nombre del titular"
-                                :rules="rules.nameaccount"
+                                :rules="rules.acco_nameaccount"
                                 required
                                 type="text"
                                 :disabled="this.flow === 'delete' || text"
@@ -207,9 +208,9 @@
                             </v-col>
                             <v-col cols="12" sm="6">
                             <v-text-field
-                                v-model="editedItem.email"
+                                v-model="editedItem.acco_email"
                                 label="Correo electrónico"
-                                :rules="rules.email"
+                                :rules="rules.acco_email"
                                 required
                                 type="text"
                                 :disabled="this.flow === 'delete' || text"
@@ -228,10 +229,10 @@
                             </v-col>
                             <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="editedItem.phone"
+                                v-model="editedItem.acco_phone"
                                 label="Número de teléfono"
                                 placeholder="2121234567"
-                                :rules="rules.phone"
+                                :rules="rules.acco_phone"
                                 required
                                 type="text"
                                 :disabled="this.flow === 'delete' || text"
@@ -255,8 +256,8 @@
                       color="primary"
                       text
                       v-if="this.flow === 'edit'"
-                      @click="saveItem(editedItem.id, editedItem.name, editedItem.bankname, editedItem.numberaccount, editedItem.nameaccount, 
-                                     editedItem.country_code, editedItem.phone, editedItem.email, editedItem.stor_id, editedItem.user_id )"
+                      @click="saveItem(editedItem.id, editedItem.acco_name, editedItem.acco_bankname, editedItem.acco_numberaccount, editedItem.acco_nameaccount, 
+                                     editedItem.country_code, editedItem.acco_phone, editedItem.acco_email, editedItem.user_id )"
                       :disabled="!isValidEdit"
                       :loading="loading"
                     >Guardar</v-btn>
@@ -315,6 +316,13 @@
 </template>
 
 <script>
+var config = {
+  headers: {
+     "Content-Type": 'application/json',
+     "X-Requested-With": 'XMLHttpRequest',
+     "Authorization": ''
+   }
+}
 import axios from 'axios'
 
 const bankAccounts = []
@@ -322,42 +330,41 @@ const bankAccounts = []
 export default {
   data() {
     return {
-      stor_id: '',
       bankAccounts: bankAccounts,
       user_id: '',
-      name: '',
-      bankname: '',
-      numberaccount: '',
-      nameaccount: '',
-      email: '',
+      acco_name: '',
+      acco_bankname: '',
+      acco_numberaccount: '',
+      acco_nameaccount: '',
+      acco_email: '',
       country_code: '',
-      phone: '',
+      acco_phone: '',
       isValid: true,
       isValidEdit: true,
       rules: {
-        name: [
+        acco_name: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
-        bankname: [
+        acco_bankname: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
-        numberaccount: [
+        acco_numberaccount: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 20 || 'El campo debe tener menos de 20 caracteres.',
           (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
         ],
-        nameaccount: [
+        acco_nameaccount: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
-        email: [
+        acco_email: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 80 || 'El campo debe tener menos de 80 caracteres.',
           (v) => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
         ],
-        phone: [
+        acco_phone: [
           (v) => !!v || 'Este campo es requerido',
           (v) => Number.isInteger(Number(v)) || 'Este campo solo permite números',
         ],
@@ -413,11 +420,11 @@ export default {
         },
         {
           text: 'Nombre del banco',
-          value: 'name_bank',
+          value: 'acco_bankname',
         },
         {
           text: 'Número de cuenta',
-          value: 'numberaccount',
+          value: 'acco_numberaccount',
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
@@ -429,27 +436,19 @@ export default {
   },
   methods: {
     async getStores() {
+      let varToken = this.$session.get('tokenSession')
+      config.headers.Authorization = 'Bearer ' + varToken
+
       console.log(this.$route.params.id);
       let userId = this.$session.get('user_id')
       this.bankAccounts = []
       let bankAccounts = [] 
       axios
-        .get('http://auth.malllikeu.com/api/accounts/' + userId)
+        .get('http://auth.malllikeu.com/api/accounts/' + userId, config)
         .then((response) => {
-          this.bankAccounts = this.bankAccounts.concat(response.data.account)
-          bankAccounts = bankAccounts.concat(response.data.account)
-          bankAccounts.map(function(x) {
-            let langTypePickup
-            switch (x.stbr_pickup) {
-              case true:
-                langTypePickup = 'Si'
-                break
-              default:
-                langTypePickup = 'No'
-                break
-            }
-            x.pickup_stbr = langTypePickup
-          })
+          this.bankAccounts = this.bankAccounts.concat(response.data)
+          console.log(this.bankAccounts);
+          bankAccounts = bankAccounts.concat(response.data)
         })
         .catch((error) => {
           if (error.response) {
@@ -464,25 +463,16 @@ export default {
         .finally(() => (this.loading = false))
     },
     async getStoreBranches() {
+      let varToken = this.$session.get('tokenSession')
+      config.headers.Authorization = 'Bearer ' + varToken
+
       this.bankAccounts = []
       let bankAccounts = []
       axios
-        .get('http://auth.malllikeu.com/api/accounts/' + this.str_id)
+        .get('http://auth.malllikeu.com/api/accounts/' + this.str_id, config)
         .then((response) => {
-          this.bankAccounts = this.bankAccounts.concat(response.data.account)
-          bankAccounts = bankAccounts.concat(response.data.account)
-          bankAccounts.map(function(x) {
-            let langTypePickup
-            switch (x.stbr_pickup) {
-              case true:
-                langTypePickup = 'Si'
-                break
-              default:
-                langTypePickup = 'No'
-                break
-            }
-            x.pickup_stbr = langTypePickup
-          })
+          this.bankAccounts = this.bankAccounts.concat(response.data)
+          bankAccounts = bankAccounts.concat(response.data)
         })
         .catch((error) => {
           if (error.response) {
@@ -498,67 +488,33 @@ export default {
     },
     handleCreate() {
       this.editError = ''
-      this.stbr_pickup = this.stbr_pickup === true ? 'Si' : 'No'
-      this.stbr_state = this.stbr_state === 'open' ? 'Abierto' : 'Cerrado'
-      this.stbr_state = this.stbr_state === 'open' ? true : false
       this.dialogCreate = !this.dialogCreate
     },
     handleEdit(flow, item) {
       this.flow = flow
       this.editedItem = Object.assign(this.editedItem, item) || {}
       this.editError = ''
-      this.stbr_pickup = this.editedItem.stbr_pickup === true ? 'Si' : 'No'
-      this.stbr_state = this.editedItem.stbr_state === 'open' ? 'Abierto' : 'Cerrado'
-      this.editedItem.stbr_state = this.editedItem.stbr_state === 'open' ? true : false
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
     async saveItem(
       id,
-      city,
-      delivery,
-      deliveryinfo,
-      pickup,
-      email,
-      facebook,
-      instagram,
-      latitude,
-      longitude,
-      otherinfo,
-      phone,
-      pinterest,
-      returninfo,
-      schedule,
-      stbr_state,
-      twitter,
-      webside,
-      youtube,
-      stor_id,
+      acco_email,
+      acco_name,
+      acco_nameaccount,
+      acco_numberaccount,
+      acco_phone,
       user_id
     ) {
-      var branchState = stbr_state === true ? 'open' : 'closed'
       axios
-        .put('http://store.malllikeu.com/api/accounts/' + id, {
-          stor_id: stor_id,
+        .put('http://auth.malllikeu.com/api/accounts/' + id, {
           user_id: user_id,
-          latitude: latitude,
-          longitude: longitude,
-          city: city,
-          phone: phone,
-          email: email,
-          pickup: pickup,
-          delivery: delivery,
-          schedule: schedule,
-          state: branchState,
-          deliveryinfo: deliveryinfo,
-          returninfo: returninfo,
-          otherinfo: otherinfo,
-          webside: webside,
-          facebook: facebook,
-          twitter: twitter,
-          instagram: instagram,
-          pinterest: pinterest,
-          youtube: youtube,
+          acco_bankname: acco_bankname,
+          acco_email: acco_email,
+          acco_name: acco_name,
+          acco_nameaccount: acco_nameaccount,
+          acco_numberaccount: acco_numberaccount,
+          acco_phone: acco_phone,          
         })
         .then((response) => {
           console.log('RESPONSE: ', response.data.message)
@@ -581,7 +537,7 @@ export default {
     },
     async deleteItem(id) {
       axios
-        .delete('http://store.malllikeu.com/api/accounts/' + id)
+        .delete('http://auth.malllikeu.com/api/accounts/' + id, config)
         .then((response) => {
           console.log('RESPONSE: ', response.data.message)
           this.getStores()
@@ -603,26 +559,13 @@ export default {
     async newItem() {
       axios
         .post('http://store.malllikeu.com/api/accounts', {
-          stor_id: this.stor_id,
           user_id: this.user_id,
-          latitude: this.latitude,
-          longitude: this.longitude,
-          city: this.city,
-          phone: this.phone,
-          email: this.email,
-          pickup: this.pickup,
-          delivery: this.delivery,
-          schedule: this.schedule,
-          branchState: this.stbr_state,
-          deliveryinfo: this.deliveryinfo,
-          returninfo: this.returninfo,
-          otherinfo: this.otherinfo,
-          webside: this.webside,
-          facebook: this.facebook,
-          twitter: this.twitter,
-          instagram: this.instagram,
-          pinterest: this.pinterest,
-          youtube: this.youtube,
+          acco_bankname: this.acco_bankname,
+          acco_email: this.acco_email,
+          acco_name: this.acco_name,
+          acco_nameaccount: this.acco_nameaccount,
+          acco_numberaccount: this.acco_numberaccount,
+          acco_phone: this.acco_phone,
         })
         .then((response) => {
           console.log('RESPONSE: ', response.data.message)
@@ -642,16 +585,6 @@ export default {
         .finally(() => ((this.loading = false), (this.text = false)))
       this.text = true
       this.loading = true
-    },
-    async changeSwitch(swt, flow) {
-      switch (flow) {
-        case 'pickup':
-          this.stbr_pickup = swt === true ? 'Si' : 'No'
-          break
-        case 'status':
-          this.stbr_state = swt === true ? 'Abierto' :  'Cerrado'
-          break
-      }
     },
   },
 }

@@ -1,4 +1,4 @@
-<template  class="d-print-none">
+<template class="d-print-none">
   <v-app id="inspire" class="app dashboard">
     <app-drawer class="app--drawer" :show-drawer="showDrawer" />
     <app-toolbar class="app--toolbar" @side-icon-click="handleDrawerVisiable" />

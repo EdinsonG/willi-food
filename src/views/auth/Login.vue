@@ -111,7 +111,6 @@ export default {
           this.$session.set('tokenSession', response.data.access_token)
           if (this.$session.exists()) {
             this.userData()
-            this.$router.push('/estadisticas')
           }
         })
         .catch((error) => {
@@ -140,6 +139,7 @@ export default {
         .get('http://auth.malllikeu.com/api/auth/user', config)
         .then((response) => {
           this.$session.set('user_id', response.data.id)
+          this.$router.push('/estadisticas')
         })
         .catch((error) => {
           if (error.response) {

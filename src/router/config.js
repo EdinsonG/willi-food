@@ -122,6 +122,20 @@ export const protectedRoute = [
         }),
         component: () => import(/* webpackChunkName: "cuentas" */ '@/views/MyShop.vue'),
       },
+      {
+        path: '/servicios',
+        meta: {
+          title: 'Servicios',
+          group: 'apps',
+          icon: 'widgets',
+          requiresAuth: true,
+        },
+        name: 'Services',
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/Services.vue'),
+      },
       // {
       //   path: '/media',
       //   meta: {

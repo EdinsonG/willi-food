@@ -91,13 +91,13 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-select
-                            v-model="pickup"
-                            :items="selectPickup"
-                            label="Retiro"
-                            required
-                            :disabled="text"
-                          ></v-select>
+                          <v-switch
+                            v-model="stbr_pickup"
+                            :label="'Retiro: ' + this.stbr_pickup"
+                            type="text"
+                            :disabled="this.flow === text"
+                            @change="changeSwitch(stbr_pickup, 'pickup')"
+                          ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="3">
                           <v-select
@@ -111,7 +111,7 @@
                             :disabled="text"
                           ></v-select>
                         </v-col>
-                        <v-col cols="12" sm="6">
+                        <v-col cols="12" sm="9">
                           <v-text-field
                             v-model="schedule"
                             label="Horario"
@@ -122,15 +122,15 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-select
-                            v-model="state"
-                            :items="selectState"
-                            label="Estatus"
-                            required
-                            :disabled="text"
-                          ></v-select>
+                          <v-switch
+                            v-model="stbr_state"
+                            :label="'Estatus: ' + this.stbr_state"
+                            type="text"
+                            :disabled="this.flow === text"
+                            @change="changeSwitch(stbr_state, 'status')"
+                          ></v-switch>
                         </v-col>
-                        <v-col cols="12" sm="9">
+                        <v-col cols="12" sm="12">
                           <v-text-field
                             v-model="deliveryinfo"
                             label="Información de la entrega"
@@ -228,11 +228,10 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleCreate()" :disabled="text">Cancelar</v-btn>
+                    <v-btn color="grey" text @click="handleCreate()" :disabled="text">Cancelar</v-btn>
                     <v-btn
                       color="primary"
                       text
-                      flat
                       @click="newItem()"
                       :loading="loading"
                       :disabled="!isValid"
@@ -305,12 +304,14 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-select
+                          <v-switch
                             v-model="editedItem.stbr_pickup"
-                            :items="selectPickup"
-                            label="Retiro"
+                            :label="'Retiro: ' + this.stbr_pickup"
+                            :rules="rules.pickup"
+                            type="text"
                             :disabled="this.flow === 'delete' || text"
-                          ></v-select>
+                            @change="changeSwitch(editedItem.stbr_pickup, 'pickup')"
+                          ></v-switch>
                         </v-col>
                         <v-col cols="12" sm="3">
                           <v-select
@@ -323,10 +324,10 @@
                             :disabled="this.flow === 'delete' || text"
                           ></v-select>
                         </v-col>
-                        <v-col cols="12" sm="6">
+                        <v-col cols="12" sm="9">
                           <v-text-field
                             v-model="editedItem.stbr_schedule"
-                            label="schedule"
+                            label="Horario"
                             :rules="rules.schedule"
                             required
                             type="text"
@@ -334,14 +335,15 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="3">
-                          <v-select
+                            <v-switch
                             v-model="editedItem.stbr_state"
-                            :items="selectState"
-                            label="Estatus"
+                            :label="'Estatus: ' + this.stbr_state"
+                            type="text"
                             :disabled="this.flow === 'delete' || text"
-                          ></v-select>
+                            @change="changeSwitch(editedItem.stbr_state, 'status')"
+                          ></v-switch>
                         </v-col>
-                        <v-col cols="12" sm="9">
+                        <v-col cols="12" sm="12">
                           <v-text-field
                             v-model="editedItem.stbr_deliveryinfo"
                             label="Información de la entrega"
@@ -449,11 +451,10 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="grey" text flat @click="handleEdit()" :disabled="text">Cancelar</v-btn>
+                    <v-btn color="grey" text @click="handleEdit()" :disabled="text">Cancelar</v-btn>
                     <v-btn
                       color="red--text lighten-5"
                       v-if="this.flow === 'delete'"
-                      flat
                       @click="deleteItem(editedItem.id)"
                     >Eliminar</v-btn>
                     <v-btn
@@ -487,7 +488,7 @@
                 loading="true"
                 loading-text="Cargando... Por favor espere"
               >
-                <template v-slot:item.action="{ item }">
+                <template v-slot:[`item.action`]="{ item }">
                   <v-btn
                     depressed
                     text
@@ -537,10 +538,10 @@ export default {
       city: '',
       phone: '',
       email: '',
-      pickup: '',
+      stbr_pickup: '',
       delivery: '',
       schedule: '',
-      state: '',
+      stbr_state: '',
       deliveryinfo: '',
       returninfo: '',
       otherinfo: '',
@@ -582,13 +583,9 @@ export default {
           (v) => v.length <= 80 || 'El campo debe tener menos de 80 caracteres.',
           (v) => /.+@.+\..+/.test(v) || 'El formato de correo electrónico es invalido',
         ],
-        pickup: [(val) => (val || '').length > 0 || 'Este campo es requerido'],
+        //stbr_pickup: [(val) => (val || '').length > 0 || 'Este campo es requerido'],
         delivery: [(v) => !!v || 'Este campo es requerido'],
         schedule: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
-        ],
-        state: [
           (v) => !!v || 'Este campo es requerido',
           (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
@@ -629,9 +626,6 @@ export default {
           (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
         ],
       },
-
-      selectPickup: [true, false],
-      selectState: ['open', 'closed'],
       selectDelivery: [
         { code: 'p', name: 'Propio' },
         { code: 'e', name: 'Externo' },
@@ -666,26 +660,6 @@ export default {
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
-      basic: {
-        headers: [
-          {
-            text: 'Nro.',
-            value: 'id',
-          },
-          {
-            text: 'ciudad',
-            value: 'city',
-          },
-          {
-            text: 'Retiro',
-            value: 'pickup',
-          },
-          {
-            text: 'Información de la entrega',
-            value: 'delivery',
-          },
-        ],
-      },
     }
   },
   mounted() {
@@ -702,16 +676,16 @@ export default {
           this.branchOffices = this.branchOffices.concat(response.data.storeBranch)
           branchOffices = branchOffices.concat(response.data.storeBranch)
           branchOffices.map(function(x) {
-            let langType
+            let langTypePickup
             switch (x.stbr_pickup) {
               case true:
-                langType = 'Si'
+                langTypePickup = 'Si'
                 break
               default:
-                langType = 'No'
+                langTypePickup = 'No'
                 break
             }
-            x.pickup_stbr = langType
+            x.pickup_stbr = langTypePickup
           })
         })
         .catch((error) => {
@@ -735,16 +709,16 @@ export default {
           this.branchOffices = this.branchOffices.concat(response.data.storeBranch)
           branchOffices = branchOffices.concat(response.data.storeBranch)
           branchOffices.map(function(x) {
-            let langType
+            let langTypePickup
             switch (x.stbr_pickup) {
               case true:
-                langType = 'Si'
+                langTypePickup = 'Si'
                 break
               default:
-                langType = 'No'
+                langTypePickup = 'No'
                 break
             }
-            x.pickup_stbr = langType
+            x.pickup_stbr = langTypePickup
           })
         })
         .catch((error) => {
@@ -761,12 +735,18 @@ export default {
     },
     handleCreate() {
       this.editError = ''
+      this.stbr_pickup = this.stbr_pickup === true ? 'Si' : 'No'
+      this.stbr_state = this.stbr_state === 'open' ? 'Abierto' : 'Cerrado'
+      this.stbr_state = this.stbr_state === 'open' ? true : false
       this.dialogCreate = !this.dialogCreate
     },
     handleEdit(flow, item) {
       this.flow = flow
-      this.editError = ''
       this.editedItem = Object.assign(this.editedItem, item) || {}
+      this.editError = ''
+      this.stbr_pickup = this.editedItem.stbr_pickup === true ? 'Si' : 'No'
+      this.stbr_state = this.editedItem.stbr_state === 'open' ? 'Abierto' : 'Cerrado'
+      this.editedItem.stbr_state = this.editedItem.stbr_state === 'open' ? true : false
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
@@ -786,13 +766,14 @@ export default {
       pinterest,
       returninfo,
       schedule,
-      state,
+      stbr_state,
       twitter,
       webside,
       youtube,
       stor_id,
       user_id
     ) {
+      var branchState = stbr_state === true ? 'open' : 'closed'
       axios
         .put('http://store.malllikeu.com/api/store-branches/' + id, {
           stor_id: stor_id,
@@ -805,7 +786,7 @@ export default {
           pickup: pickup,
           delivery: delivery,
           schedule: schedule,
-          state: state,
+          state: branchState,
           deliveryinfo: deliveryinfo,
           returninfo: returninfo,
           otherinfo: otherinfo,
@@ -869,7 +850,7 @@ export default {
           pickup: this.pickup,
           delivery: this.delivery,
           schedule: this.schedule,
-          state: this.state,
+          branchState: this.stbr_state,
           deliveryinfo: this.deliveryinfo,
           returninfo: this.returninfo,
           otherinfo: this.otherinfo,
@@ -898,6 +879,16 @@ export default {
         .finally(() => ((this.loading = false), (this.text = false)))
       this.text = true
       this.loading = true
+    },
+    async changeSwitch(swt, flow) {
+      switch (flow) {
+        case 'pickup':
+          this.stbr_pickup = swt === true ? 'Si' : 'No'
+          break
+        case 'status':
+          this.stbr_state = swt === true ? 'Abierto' :  'Cerrado'
+          break
+      }
     },
   },
 }

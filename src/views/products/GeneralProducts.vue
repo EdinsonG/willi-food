@@ -229,7 +229,7 @@
                 loading-text="Cargando... Por favor espere"
                 :sort-by="['id']"
               >
-                <template v-slot:item.status_prod="{ item }">
+                <template v-slot:[`item.status_prod`]="{ item }">
                   <span v-if="item.prod_status === 'selled'">
                     <v-avatar left>
                       <v-icon :class="getColor(item.prod_status)">mdi-close-circle-outline</v-icon>
@@ -243,7 +243,7 @@
                     {{ item.status_prod }}
                   </span>
                 </template>
-                <template v-slot:item.action="{ item }">
+                <template v-slot:[`item.action`]="{ item }">
                   <v-btn
                     depressed
                     text
@@ -505,8 +505,7 @@ export default {
       prod_high,
       prod_weight
     ) {
-      console.log('AQUI')
-      var prodstatus = prod_status === true || 'available' ? 'Disponible' : 'Agotado'
+      var prodstatus = prod_status === true ? 'available' : 'selled'
       axios.put('http://store.malllikeu.com/api/products/' + id, {
           stbr_id: stbr_id,
           stor_id: stor_id,

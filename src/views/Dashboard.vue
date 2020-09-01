@@ -69,63 +69,88 @@ export default {
       return API.getLocation
     },
   },
-  created: function () {
+  created: function() {
     this.getPurchaseOrders()
   },
   methods: {
     async getPurchaseOrders() {
       let userId = this.$session.get('user_id')
-      axios.get('http://store.malllikeu.com/api/orders/' + userId)
+      axios
+        .get('http://store.malllikeu.com/api/orders/' + userId)
         .then((response) => {
           let purchaseOrders = response.data.order
-          for (let index in purchaseOrders) {
-            if (purchaseOrders[index].orde_status === 'pending') {
-              this.pending++
+
+          if (typeof Array.purchaseOrders === 'undefined') {
+            let order = this.purchaseOrders.orde_status;
+            switch (order) {
+              case 'pending':
+                this.pending++
+                break
+              case 'canceled':
+                this.canceled++
+                break
+              default:
+                this.approved++
+                break
             }
-            if (purchaseOrders[index].orde_status === 'approved') {
-              this.approved++
-            }
-            if (purchaseOrders[index].orde_status === 'canceled') {
-              this.canceled++
+          }else{
+            for (let index in purchaseOrders) {
+              if (purchaseOrders[index].orde_status === 'pending') {
+                console.log('pending');
+                this.pending++
+              }
+              if (purchaseOrders[index].orde_status === 'approved') {
+                console.log('approved');
+                this.approved++
+              }
+              if (purchaseOrders[index].orde_status === 'canceled') {
+                console.log('pending');
+                this.canceled++
+              }
             }
           }
+
+          //console.log(Object.keys(this.purchaseOrders).length)
+          //console.log((this.purchaseOrders).length) // 5
+          // console.log(this.purchaseOrders.orde_status) // 5
+
           this.trending = [
-                            {
-                        subheading: 'Pendiente',
-                        headline: '15+',
-                        icon: {
-                          label: 'mdi-alert-circle-outline',
-                          color: 'orange',
-                        },
-                        linear: {
-                          value: this.pending,
-                          color: 'info',
-                        },
-                      },
-                      {
-                        subheading: 'Aprobada',
-                        headline: '15+',
-                        icon: {
-                          label: 'mdi-check-circle-outline',
-                          color: 'green',
-                        },
-                        linear: {
-                          value: this.approved,
-                          color: 'success',
-                        },
-                      },
-                      {
-                        subheading: 'Rechazada',
-                        headline: '15+',
-                        icon: {
-                          label: 'mdi-close-circle-outline',
-                          color: 'pink',
-                        },
-                        linear: {
-                          value: this.canceled,
-                          color: 'error',
-                        }
-                      }
+            {
+              subheading: 'Pendiente',
+              headline: '15+',
+              icon: {
+                label: 'mdi-alert-circle-outline',
+                color: 'orange',
+              },
+              linear: {
+                value: this.pending,
+                color: 'info',
+              },
+            },
+            {
+              subheading: 'Aprobada',
+              headline: '15+',
+              icon: {
+                label: 'mdi-check-circle-outline',
+                color: 'green',
+              },
+              linear: {
+                value: this.approved,
+                color: 'success',
+              },
+            },
+            {
+              subheading: 'Rechazada',
+              headline: '15+',
+              icon: {
+                label: 'mdi-close-circle-outline',
+                color: 'pink',
+              },
+              linear: {
+                value: this.canceled,
+                color: 'error',
+              },
+            },
           ]
         })
         .catch((error) => {
@@ -139,7 +164,7 @@ export default {
           }
         })
         .finally(() => (this.loading = false))
-    }
-  }
+    },
+  },
 }
 </script>

@@ -1,4 +1,4 @@
-<template>
+<template class="d-print-none">
   <v-app :dark="true">
     <router-view></router-view>
     <!-- theme setting -->

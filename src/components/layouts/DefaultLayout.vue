@@ -1,4 +1,4 @@
-<template>
+<template class="d-print-none">
   <v-app id="inspire" class="app dashboard">
     <app-drawer class="app--drawer" :show-drawer="showDrawer" />
     <app-toolbar class="app--toolbar" @side-icon-click="handleDrawerVisiable" />
@@ -6,7 +6,7 @@
       <!-- Page Header -->
       <div class="page-wrapper"><router-view /></div>
       <!-- App Footer -->
-      <v-footer height="auto" class="white pa-3 app--footer">
+      <v-footer height="auto" class="white pa-3 app--footer d-print-none">
         <span>&copy; {{ new Date().getFullYear() }}</span>
         <v-spacer />
         <span class="caption mr-1"></span>

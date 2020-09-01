@@ -2,7 +2,7 @@
   <v-card class="elevation-1 pa-3 login-card">
     <v-card-text>
       <v-layout align-center justify-center column fill-height>
-        <img src="/static/WiliiUBack.svg" alt="WiliiUBack-img" width="250" height="120" />
+        <img src="/static/Admin_Like_Group.svg" alt="Admin_Like_Group-img" width="250" height="140" />
         <h1 class="my-4 secondary--text display-1">Admin</h1>
       </v-layout>
       <!-- <v-alert type="error" dense outlined class="notification is-danger" v-if="error">
@@ -111,7 +111,6 @@ export default {
           this.$session.set('tokenSession', response.data.access_token)
           if (this.$session.exists()) {
             this.userData()
-            this.$router.push('/estadisticas')
           }
         })
         .catch((error) => {
@@ -140,6 +139,7 @@ export default {
         .get('http://auth.malllikeu.com/api/auth/user', config)
         .then((response) => {
           this.$session.set('user_id', response.data.id)
+          this.$router.push('/estadisticas')
         })
         .catch((error) => {
           if (error.response) {

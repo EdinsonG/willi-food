@@ -1,15 +1,15 @@
-<template>
+<template class="d-print-none">
   <v-navigation-drawer
     app
-    class="app--drawer"
+    class="app--drawer d-print-none"
     :mini-variant.sync="mini"
     v-model="drawer"
     :width="drawWidth"
     :dark="$vuetify.dark"
   >
-    <v-toolbar color="white darken-1 pt-1" dark>
+    <v-toolbar color="white darken-1 pt-1 d-flex justify-center" dark>
       <a href="/estadisticas">
-        <img src="/static/WiliiUBack.svg" alt="WiliiUBack" width="200" />
+        <img src="/static/Admin_Like_Group.svg" alt="Admin_Like_Group" width="160" />
       </a>
     </v-toolbar>
     <!-- <div class="pa-1">

@@ -67,20 +67,6 @@ export const protectedRoute = [
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
       },
       {
-        path: '/cuentas-bancarias',
-        meta: {
-          title: 'Cuentas bancarias',
-          group: 'apps',
-          icon: 'BankAccounts',
-          requiresAuth: true,
-        },
-        name: 'BankAccounts',
-        props: (route) => ({
-          type: route.query.type,
-        }),
-        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/BankAccounts.vue'),
-      },
-      {
         path: '/ordenes-de-compra',
         meta: {
           title: 'Órdenes de Compra',
@@ -108,34 +94,7 @@ export const protectedRoute = [
         }),
         component: () => import(/* webpackChunkName: "cuentas" */ '@/views/Payments.vue'),
       },
-      {
-        path: '/mis-tiendas',
-        meta: {
-          title: 'Mis tiendas',
-          group: 'apps',
-          icon: 'shop',
-          requiresAuth: true,
-        },
-        name: 'MyShop',
-        props: (route) => ({
-          type: route.query.type,
-        }),
-        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/MyShop.vue'),
-      },
-      {
-        path: '/servicios',
-        meta: {
-          title: 'Servicios',
-          group: 'apps',
-          icon: 'widgets',
-          requiresAuth: true,
-        },
-        name: 'Services',
-        props: (route) => ({
-          type: route.query.type,
-        }),
-        component: () => import(/* webpackChunkName: "cuentas" */ '@/views/Services.vue'),
-      },
+    
       // {
       //   path: '/media',
       //   meta: {
@@ -178,6 +137,54 @@ export const protectedRoute = [
     ],
   },
 
+  {
+    path: '/mi-perfil',
+    component: DefaultLayout,
+    meta: {
+      title: 'Mi perfil',
+      icon: 'person',
+      group: 'advance',
+    },
+    redirect: '/mi-perfil/cuentas-bancarias',
+    children: [
+      {
+        path: '/mi-perfil/cuentas-bancarias',
+        name: 'Profile',
+        meta: {
+          title: 'Cuentas Bancarias',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "mi-perfil" */ '@/views/BankAccounts.vue'),
+      },
+    ],
+  },
+  
+  {
+    path: '/tiendas',
+    component: DefaultLayout,
+    meta: {
+      title: 'tiendas',
+      icon: 'shop',
+      group: 'advance',
+    },
+    redirect: '/tiendas/mis-tiendas',
+    children: [
+      {
+        path: '/tiendas/mis-tiendas',
+        name: 'Branches',
+        meta: {
+          title: 'Mis tiendas',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "my-branches" */ '@/views/MyShop.vue'),
+      },
+    ],
+  },
+
   //list
   {
     path: '/sucursales',
@@ -211,13 +218,13 @@ export const protectedRoute = [
       icon: 'local_convenience_store',
       group: 'advance',
     },
-    redirect: '/productos/general',
+    redirect: '/productos/mis-productos',
     children: [
       {
-        path: '/productos/general',
+        path: '/productos/mis-productos',
         name: 'Products',
         meta: {
-          title: 'General',
+          title: 'Mis productos',
         },
         props: (route) => ({
           type: route.query.type,
@@ -226,6 +233,77 @@ export const protectedRoute = [
       },
     ],
   },
+
+  {
+    path: '/contrataciones',
+    component: DefaultLayout,
+    meta: {
+      title: 'Contrataciones',
+      icon: 'widgets',
+      group: 'advance',
+    },
+    redirect: '/contrataciones/servicios-contratados',
+    children: [
+      {
+        path: '/contrataciones/servicios-contratados',
+        name: 'Services',
+        meta: {
+          title: 'Servicios contratados',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "services" */ '@/views/Services.vue'),
+      },
+      {
+        path: '/contrataciones/pagos-realizados',
+        name: 'Payments',
+        meta: {
+          title: 'Pagos realizados',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "services" */ '@/views/Payments.vue'),
+      },
+    ],
+  },
+
+  {
+    path: '/gestion-de-ventas',
+    component: DefaultLayout,
+    meta: {
+      title: 'Gestión de ventas',
+      icon: 'assignment',
+      group: 'advance',
+    },
+    redirect: '/gestion-de-ventas/ordenes-compras',
+    children: [
+      {
+        path: '/gestion-de-ventas/ordenes-compras',
+        name: 'PurchaseOrders',
+        meta: {
+          title: 'Órdenes de compras',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "PurchaseOrders" */ '@/views/PurchaseOrders.vue'),
+      },
+      {
+        path: '/gestion-de-ventas/pagos-por-plataforma',
+        name: 'PaymentsPlatform',
+        meta: {
+          title: 'Pagos por plataforma',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "PaymentsPlatform" */ '@/views/PaymentsPlatform.vue'),
+      },
+    ],
+  },
+
 
   // {
   //   path: '/cms',

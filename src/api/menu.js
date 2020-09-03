@@ -1,116 +1,215 @@
 const Menu = [
-  { header: 'Consolidado' },
+  {
+    header: 'Resumen'
+  },
   {
     text: 'Estadísticas',
     to: '/estadisticas',
     icon: 'dashboard',
   },
-
-  { header: 'Mi Perfil' },
   {
-    text: 'Mis Datos',
-    to: '/mis-datos',
+    text: 'Mi perfil',
+    group: 'mi-perfil',
+    to: '/mi-perfil',
+    disabled: 'disabled',
     icon: 'person',
-    disabled: 'disabled',
-  },
-  {
-    text: 'Cuentas Bancarias',
-    to: '/cuentas-bancarias',
-    icon: 'account_balance',
+    children: [
+      {
+        //to: '/mi-perfil/mis-datos',
+        text: 'Mis datos',
+        disabled: ['disabled']
+      },
+      {
+        //to: '/mi-perfil/informacion-adicional',
+        text: 'Información adicional',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        to: '/mi-perfil/cuentas-bancarias',
+        text: 'Cuentas bancarias',
+        badge: 'new',
+        props: ['disabled']
+      },
+      {
+        //to: '/mi-perfil/direcciones',
+        text: 'Direcciones',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/mi-perfil/mi-ubicacion',
+        text: 'Mi ubicación',
+        disabled: 'disabled'
+      },
+    ],
   },
 
-
-  { header: 'Gestión de Venta' },
   {
-    text: 'Órdenes de Compra',
-    to: '/ordenes-de-compra',
-    icon: 'assignment',
-  },
-  {
-    text: 'Pagos',
-    to: '/pagos',
-    icon: 'account_balance_wallet',
-  },
-
-  { header: 'Tienda' },
-  {
-    text: 'Mis tiendas',
-    to: '/mis-tiendas',
+    text: 'Tiendas',
+    group: 'mis-tiendas',
+    to: '/tiendas',
     icon: 'shop',
+    children: [{
+        to: '/tiendas/mis-tiendas',
+        text: 'Mis tiendas'
+      },
+      {
+        //to: '/tiendas/departamentos',
+        text: 'Mis departamentos',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+    ],
   },
-  {
-    text: 'Departamentos',
-    to: '/departamentos',
-    icon: 'group_work',
-    disabled: 'disabled',
-  },
-  {
-      text: 'Sucursales',
-      group: 'sucursales',
-      to: '/sucursales',
-      disabled: 'disabled',
-      icon: 'local_convenience_store',
-      children: [
-        { to: '/sucursales/mis-sucursales', text: 'Mis Sucursales',disabled: true },
-        { to: '/sucursales/usuarios', text: 'Usuarios', badge: 'new', disabled: 'disabled' },
-        { to: '/sucursales/direcciones-de-facturación', text: 'Direcciones de Facturación', disabled: 'disabled' },
-      ],
-    },
 
-    {
-      text: 'Productos',
-      group: 'productos',
-      to: '/productos',
-      icon: 'storage',
-      disabled: 'disabled',
-      children: [
-        { to: '/productos/general', text: 'General' },
-        { to: '/productos/productos-en-sucursales', text: 'Productos en sucursales', badge: 'new' },
-        { to: '/productos/actualización-de-precios', text: 'Actualización de precios' },
-        { to: '/productos/actualización-de-inventario', text: 'Actualización de inventario' },
-      ],
-    },
-  
-  { header: 'Contrataciones' },
   {
-    text: 'Servicios',
-    to: '/servicios',
+    text: 'Sucursales',
+    group: 'sucursales',
+    to: '/sucursales',
+    disabled: 'disabled',
+    icon: 'local_convenience_store',
+    children: [{
+        to: '/sucursales/mis-sucursales',
+        text: 'Mis sucursales',
+      },
+      {
+        //to: '/sucursales/usuarios',
+        text: 'Usuarios',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/sucursales/cuentas',
+        text: 'Cuentas',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/sucursales/formas-de-pago',
+        text: 'Formas de Pago',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/sucursales/direccion-de-facturación',
+        text: 'Dirección de facturación',
+        disabled: 'disabled'
+      },
+    ],
+  },
+
+  {
+    text: 'Productos',
+    group: 'productos',
+    to: '/productos',
+    icon: 'storage',
+    disabled: 'disabled',
+    children: [{
+        to: '/productos/mis-productos',
+        text: 'Mis productos'
+      },
+      {
+        //to: '/productos/inventario',
+        text: 'Inventario',
+        badge: 'new',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/productos/actualizacion-de-precios-masivo',
+        text: 'Actualización de Precios Masivo',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/productos/actualización-de-inventario-masivo',
+        text: 'Actualización de Inventario Masivo',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/productos/comentarios ',
+        text: 'Comentarios',
+        disabled: 'disabled'
+      },
+    ],
+  },
+
+  {
+    text: 'Contrataciones',
+    group: 'contrataciones',
+    to: '/contrataciones',
     icon: 'widgets',
-  },
-  {
-    text: 'Publicidades',
-    to: '/publicidades',
-    icon: 'live_tv',
     disabled: 'disabled',
-  },
-  {
-    text: 'Facturación',
-    to: '/facturacion',
-    icon: 'receipt',
-    disabled: 'disabled',
-  },
-  {
-    text: 'Pagos',
-    to: '/pagos',
-    icon: 'account_balance_wallet',
-    disabled: 'disabled',
+    children: [{
+        to: '/contrataciones/servicios-contratados',
+        text: 'Servicios contratados'
+      },
+      {
+        //to: '/contrataciones/publicidades-propia',
+        text: 'Publicidades propia',
+        disabled: 'disabled',
+        badge: 'new'
+      },
+      {
+        //to: '/contrataciones/publicidades',
+        text: 'Publicidades',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/contrataciones/facturacion-servicios',
+        text: 'Facturación servicios',
+        disabled: 'disabled'
+      },
+      {
+        to: '/contrataciones/pagos-realizados',
+        text: 'Pagos realizados'
+      },
+    ],
   },
 
-  { header: 'Delivery' },
+  {
+    text: 'Gestión de ventas',
+    group: 'gestion-de-ventas',
+    to: '/gestion-de-ventas',
+    icon: 'assignment',
+    disabled: 'disabled',
+    children: [{
+        to: '/gestion-de-ventas/ordenes-compras',
+        text: 'Órdenes de compras'
+      },
+      {
+        //to: '/gestion-de-ventas/valoración-de-compra',
+        text: ' Valoración de compra',
+        disabled: 'disabled',
+        badge: 'new'
+      },
+      {
+        //to: '/gestion-de-ventas/comentarios-de-compras',
+        text: 'Comentarios de compras',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/gestion-de-ventas/conversaciones ',
+        text: 'Conversaciones',
+        disabled: 'disabled'
+      },
+      {
+        to: '/gestion-de-ventas/pagos-por-plataforma',
+        text: 'Pagos por plataforma'
+      },
+      {
+        //to: '/gestion-de-ventas/repartidores',
+        disabled: true,
+        text: 'Repartidores'
+      },
+    ],
+  },
+
   {
     text: 'Repartidores',
-    to: '/repartidores',
+    //to: '/repartidores',
     icon: 'supervisor_account',
     disabled: 'disabled',
   },
-  {
-    text: 'Ejecución de Repartidores',
-    to: '/ejecución-de-repartidores',
-    icon: 'transfer_within_a_station',
-    disabled: 'disabled',
-  },
-
-  { header: 'Reporte' },
   // {
   //   text: 'Cuentas',
   //   to: '/cuentas',

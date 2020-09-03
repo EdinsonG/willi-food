@@ -3,7 +3,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex sm12>
-          <h3>Pagos</h3>
+          <h3>Pagos por plataforma</h3>
         </v-flex>
         <v-flex lg12>
           <v-card>
@@ -356,18 +356,30 @@ export default {
           value: 'id',
         },
         {
-          text: 'Fecha',
+          text: 'Servicio',
           value: 'orde_date',
         },
         {
-          text: 'Estatus',
+          text: 'Fecha',
           value: 'status_orde',
         },
         {
-          text: 'Total',
+          text: 'Metodo',
           value: 'orde_total',
         },
-        { text: 'Acción', value: 'action', sortable: false, align: 'right' },
+        {
+          text: 'Ref',
+          value: 'orde_total',
+        },
+        {
+          text: 'Estatus',
+          value: 'orde_total',
+        },
+        {
+          text: 'Monto',
+          align: 'right',
+          value: 'orde_total',
+        },
       ],
       editedItem: {},
       viewItem: {},
@@ -388,11 +400,58 @@ export default {
       this.payments = []
       let payments = []
       axios
-        .get('https://apiqa.payfor-u.com/api/transactions/', config)
+        .get('http://store.malllikeu.com/api/orders/' + userId)
         .then((response) => {
           console.log(response.data);
           this.payments = this.payments.concat(response.data)
           payments = payments.concat(response.data)
+          payments.map(function(x) {
+            let langOrder
+            let langTypeOrder
+            let langDeliveryStatus
+            switch (x.orde_status) {
+              case 'pending':
+                langOrder = 'Pendiente'
+                break
+              case 'to be approved':
+                langOrder = 'Para ser aprobado'
+                break
+              case 'approved':
+                langOrder = 'Aprobado'
+                break
+              case 'canceled':
+                langOrder = 'Cancelado'
+                break
+            }
+            switch (x.orde_type) {
+              case 'pickup':
+                langTypeOrder = 'Retiro'
+                break
+              case 'delivery':
+                langTypeOrder = 'Entrega'
+                break
+            }
+            switch (x.orde_deliverystatus) {
+              case 'to attend':
+                langDeliveryStatus = 'Para asistir'
+                break
+              case 'attended':
+                langDeliveryStatus = 'Atendido'
+                break
+              case 'to send':
+                langDeliveryStatus = 'Para enviar'
+                break
+              case 'sent':
+                langDeliveryStatus = 'Enviado'
+                break
+              case 'delivered':
+                langDeliveryStatus = 'Entregado'
+                break
+            }
+            x.status_orde = langOrder
+            x.type_orde = langTypeOrder
+            x.deliverystatus_orde = langDeliveryStatus
+          })
         })
         .catch((error) => {
           if (error.response) {

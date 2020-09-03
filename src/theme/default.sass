@@ -157,19 +157,29 @@ h5
     & + th
       border-left: 1px solid #c4c4c4 !important
 
+.v-list-item
+  cursor: inherit
+
+
 @media print
   .v-main
-    padding: 20px !important
+    padding: 0px !important
   @page
     margin: 0
   table
-    border: solid black !important
-    border-width: 1px 0 0 1px !important
+    border: 1px solid #c4c4c4 !important
     border-bottom-style: none
   th, td
-    border: solid black !important
-    border-width: 0 1px 1px 0 !important
+    border: 1px solid #c4c4c4 !important
     border-bottom-style: none
+  .v-dialog
+    box-shadow: none !important
+    max-width: initial
+    margin: 0
+  .v-sheet.v-card:not(.v-sheet--outlined)
+    box-shadow: none
+  v-card-title
+    padding: 0
   
   
 

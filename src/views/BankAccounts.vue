@@ -8,27 +8,12 @@
         <v-flex lg12>
           <v-card>
             <v-toolbar flat color="white">
-              <v-text-field
-                text
-                solo
-                flat
-                prepend-icon="search"
-                placeholder="Buscar"
-                v-model="search"
-                hide-details
-                class="hidden-sm-and-down"
-              ></v-text-field>
+              <v-text-field text solo flat prepend-icon="search" placeholder="Buscar" v-model="search" hide-details class="hidden-sm-and-down"></v-text-field>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialogCreate" max-width="700px">
                 <template v-slot:activator="{ on }">
                   <div class="d-flex">
-                    <v-btn
-                      color="primary"
-                      dark
-                      class="ml-auto ma-3"
-                      v-on="on"
-                      @click="handleCreate()"
-                    >
+                    <v-btn color="primary" dark class="ml-auto ma-3" v-on="on" @click="handleCreate()">
                       <v-icon left>add</v-icon>Nueva
                     </v-btn>
                   </div>
@@ -44,37 +29,15 @@
                         </div>
                         <v-row>
                             <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="acco_name"
-                                label="Alias"
-                                :rules="rules.acco_name"
-                                required
-                                type="text"
-                                :disabled="text"
-                            ></v-text-field>
+                            <v-text-field v-model="acco_name" label="Alias" :rules="rules.acco_name" required type="text" :disabled="text"></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="8">
-                            <v-select
-                              v-model="acco_bankname"
-                              :items="selectNameBank"
-                              item-text="name"
-                              item-value="code"
-                              label="Nombre del banco"
-                              :rules="rules.acco_bankname"
-                              required
-                              :disabled="text"
-                            ></v-select>
+                            <v-select v-model="acco_bankname" :items="selectNameBank" item-text="name" item-value="name" label="Nombre del banco"
+                              :rules="rules.acco_bankname" required :disabled="text" ></v-select>
                             </v-col>
                             <v-col cols="12" sm="12">
-                            <v-text-field
-                                v-model="acco_numberaccount"
-                                label="Número de cuenta"
-                                :rules="rules.acco_numberaccount"
-                                required
-                                type="text"
-                                :maxlength=20
-                                :disabled="text"
-                            ></v-text-field>
+                            <v-text-field v-model="acco_numberaccount" label="Número de cuenta" :rules="rules.acco_numberaccount" required type="text"
+                              :maxlength=20 :disabled="text"></v-text-field>
                             </v-col>
                         </v-row>
                         <div class="py-1 text-center blue-grey lighten-5">
@@ -82,46 +45,20 @@
                         </div>
                         <v-row>
                             <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="acco_nameaccount"
-                                label="Nombre del titular"
-                                :rules="rules.acco_nameaccount"
-                                required
-                                type="text"
-                                :disabled="text"
-                            ></v-text-field>
+                            <v-text-field v-model="acco_nameaccount" label="Nombre del titular" :rules="rules.acco_nameaccount" required type="text"
+                              :disabled="text"></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="acco_email"
-                                label="Correo electrónico"
-                                :rules="rules.acco_email"
-                                required
-                                type="text"
-                                :disabled="text"
-                            ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="2">
-                            <v-text-field
-                                v-model="country_code"
-                                label="Código de país"
-                                placeholder="+58"
-                                :rules="rules.country_code"
-                                required
-                                type="text"
-                                :disabled="text"
-                            ></v-text-field>
+                            <v-text-field v-model="acco_email" label="Correo electrónico" :rules="rules.acco_email" required type="text"
+                              :disabled="text"></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="acco_phone"
-                                label="Número de teléfono"
-                                placeholder="2121234567"
-                                :rules="rules.acco_phone"
-                                required
-                                type="text"
-                                :disabled="text"
-                            ></v-text-field>
+                            <v-select v-model="country_code" :items="codeCountry" item-text="name" item-value="code" label="Pais"
+                              :rules="rules.country_code" required :disabled="text" ></v-select>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                            <v-text-field v-model="acco_phone" label="Número de teléfono" placeholder="2121234567" :rules="rules.acco_phone"
+                              :maxlength=10 required type="text" :disabled="text" ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -132,25 +69,15 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="grey" text @click="handleCreate()" :disabled="text">Cancelar</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="newItem()"
-                      :loading="loading"
-                      :disabled="!isValid"
-                    >Guardar</v-btn>
+                    <v-btn color="primary" text @click="newItem()" :loading="loading" :disabled="!isValid">Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
               <v-dialog v-model="dialog" max-width="800px">
                 <v-card>
                   <v-card-title color="primary">
-                    <span
-                      v-if="editedItem.id && this.flow === 'edit'"
-                    >Editar cuenta {{editedItem.id}}</span>
-                    <span
-                      v-if="editedItem.id && this.flow === 'delete'"
-                    >Eliminar cuenta {{editedItem.id}}</span>
+                    <span v-if="editedItem.id && this.flow === 'edit'">Editar cuenta {{editedItem.id}}</span>
+                    <span v-if="editedItem.id && this.flow === 'delete'">Eliminar cuenta {{editedItem.id}}</span>
                     <span v-if="this.flow === 'create'">Nueva cuenta </span>
                   </v-card-title>
                   <v-card-text>
@@ -160,36 +87,17 @@
                         </div>
                         <v-row>
                             <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="editedItem.acco_name"
-                                label="Alias"
-                                :rules="rules.acco_name"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
+                            <v-text-field v-model="editedItem.acco_name" label="Alias" :rules="rules.acco_name" required type="text"
+                              :disabled="this.flow === 'delete' || text"></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="8">
-                            <v-select
-                              v-model="editedItem.acco_bankname"
-                              :items="selectNameBank"
-                              item-text="name"
-                              item-value="code"
-                              label="Nombre del banco"
-                              :rules="rules.acco_bankname"
-                              required
-                              :disabled="this.flow === 'delete' || text"
+                            <v-select v-model="editedItem.acco_bankname" :items="selectNameBank" item-text="name" item-value="name"
+                              label="Nombre del banco" :rules="rules.acco_bankname" required :disabled="this.flow === 'delete' || text"
                             ></v-select>
                             </v-col>
                             <v-col cols="12" sm="12">
-                            <v-text-field
-                                v-model="editedItem.acco_numberaccount"
-                                label="Número de cuenta"
-                                :rules="rules.acco_numberaccount"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
+                            <v-text-field v-model="editedItem.acco_numberaccount" label="Número de cuenta" :rules="rules.acco_numberaccount" required 
+                              :maxlength=20 type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                             </v-col>
                         </v-row>
                         <div class="py-1 text-center blue-grey lighten-5">
@@ -197,46 +105,20 @@
                         </div>
                         <v-row>
                             <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="editedItem.acco_nameaccount"
-                                label="Nombre del titular"
-                                :rules="rules.acco_nameaccount"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
+                            <v-text-field v-model="editedItem.acco_nameaccount" label="Nombre del titular" :rules="rules.acco_nameaccount" required
+                              type="text" :disabled="this.flow === 'delete' || text" ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6">
-                            <v-text-field
-                                v-model="editedItem.acco_email"
-                                label="Correo electrónico"
-                                :rules="rules.acco_email"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="2">
-                            <v-text-field
-                                v-model="editedItem.country_code"
-                                label="Código de país"
-                                placeholder="+58"
-                                :rules="rules.country_code"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
+                            <v-text-field v-model="editedItem.acco_email" label="Correo electrónico" :rules="rules.acco_email" required type="text"
+                              :disabled="this.flow === 'delete' || text" ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="editedItem.acco_phone"
-                                label="Número de teléfono"
-                                placeholder="2121234567"
-                                :rules="rules.acco_phone"
-                                required
-                                type="text"
-                                :disabled="this.flow === 'delete' || text"
-                            ></v-text-field>
+                            <v-select v-model="editedItem.country_code" :items="codeCountry" item-text="name" item-value="code" label="Pais"
+                              :rules="rules.country_code" required :disabled="this.flow === 'delete' || text" ></v-select>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                            <v-text-field v-model="editedItem.acco_phone" label="Número de teléfono" placeholder="2121234567"
+                              :maxlength=10 :rules="rules.acco_phone" required type="text" :disabled="this.flow === 'delete' || text"></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -247,20 +129,8 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="grey" text @click="handleEdit()" :disabled="text">Cancelar</v-btn>
-                    <v-btn
-                      color="red--text lighten-5"
-                      v-if="this.flow === 'delete'"
-                      @click="deleteItem(editedItem.id)"
-                    >Eliminar</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      v-if="this.flow === 'edit'"
-                      @click="saveItem(editedItem.id, editedItem.acco_name, editedItem.acco_bankname, editedItem.acco_numberaccount, editedItem.acco_nameaccount, 
-                                     editedItem.country_code, editedItem.acco_phone, editedItem.acco_email, editedItem.user_id )"
-                      :disabled="!isValidEdit"
-                      :loading="loading"
-                    >Guardar</v-btn>
+                    <v-btn color="red--text lighten-5" v-if="this.flow === 'delete'" @click="deleteItem(editedItem.id)" >Eliminar</v-btn>
+                    <v-btn color="primary" text v-if="this.flow === 'edit'" @click="saveItem(editedItem.id, editedItem.acco_name, editedItem.acco_bankname, editedItem.acco_numberaccount, editedItem.acco_nameaccount, editedItem.acco_phone, editedItem.acco_email, editedItem.country_code )" :disabled="!isValidEdit" :loading="loading" >Guardar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -270,39 +140,13 @@
             </v-toolbar>
             <v-divider></v-divider>
             <v-card-text class="pa-0">
-              <v-data-table
-                :headers="fields"
-                :search="search"
-                :items="bankAccounts"
-                :sort-by="['id']"
-                class="elevation-1"
-                item-key="name"
-                loading="true"
-                loading-text="Cargando... Por favor espere"
-              >
+              <v-data-table :headers="fields" :search="search" :items="bankAccounts" :sort-by="['id']" class="elevation-1" item-key="name"
+                loading="true" loading-text="Cargando... Por favor espere">
                 <template v-slot:[`item.action`]="{ item }">
-                  <v-btn
-                    depressed
-                    text
-                    icon
-                    fab
-                    dark
-                    color="teal"
-                    small
-                    @click="handleEdit('edit', item)"
-                  >
+                  <v-btn depressed text icon fab dark color="teal" small @click="handleEdit('edit', item)">
                     <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn
-                    depressed
-                    text
-                    icon
-                    fab
-                    dark
-                    color="pink"
-                    small
-                    @click="handleEdit('delete', item)"
-                  >
+                  <v-btn depressed text icon fab dark color="pink" small @click="handleEdit('delete', item)">
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </template>
@@ -316,13 +160,6 @@
 </template>
 
 <script>
-var config = {
-  headers: {
-     "Content-Type": 'application/json',
-     "X-Requested-With": 'XMLHttpRequest',
-     "Authorization": ''
-   }
-}
 import axios from 'axios'
 
 const bankAccounts = []
@@ -330,6 +167,15 @@ const bankAccounts = []
 export default {
   data() {
     return {
+      config: {
+        headers: {
+          "Content-Type": 'application/json',
+          "X-Requested-With": 'XMLHttpRequest',
+          "Authorization": ''
+        }
+      },
+      regexPhone: /^(424|414|412|426|416|212)+([0-9]{7})$/,
+      regexNumberAccount: /^(\d{5})(\d{15})$/,
       bankAccounts: bankAccounts,
       user_id: '',
       acco_name: '',
@@ -352,8 +198,8 @@ export default {
         ],
         acco_numberaccount: [
           (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 20 || 'El campo debe tener menos de 20 caracteres.',
-          (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
+          (v) => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+          (v) => this.regexNumberAccount.test(v) || 'Formato de campo inválido',
         ],
         acco_nameaccount: [
           (v) => !!v || 'Este campo es requerido',
@@ -367,6 +213,7 @@ export default {
         acco_phone: [
           (v) => !!v || 'Este campo es requerido',
           (v) => Number.isInteger(Number(v)) || 'Este campo solo permite números',
+          (v) => this.regexPhone.test(v) || 'Formato de campo inválido'
         ],
       },
       selectNameBank: [
@@ -405,6 +252,21 @@ export default {
         { code: '0169', name: 'MIBANCO BANCO DE DESARROLLO, C.A.' },
         { code: '0137', name: 'SOFITASA' }
       ],
+      codeCountry: [
+        { code: '54', name: 'Argentina' },
+        { code: '591', name: 'Bolivia' },
+        { code: '55', name: 'Brasil' },
+        { code: '1', name: 'Canada' },
+        { code: '56', name: 'Chile' },
+        { code: '57', name: 'Colombia' },
+        { code: '593', name: 'Ecuador' },
+        { code: '1', name: 'Estados Unidos' },
+        { code: '52', name: 'Mexico' },
+        { code: '595', name: 'Paraguay' },
+        { code: '51', name: 'Peru' },
+        { code: '598', name: 'Uruguay' },
+        { code: '58', name: 'Venezuela' }
+      ],
       flow: '',
       editError: '',
       text: false,
@@ -412,7 +274,6 @@ export default {
       dialog: false,
       dialogCreate: false,
       search: '',
-      str_id: this.$route.params.id,
       fields: [
         {
           text: 'Nro.',
@@ -428,48 +289,20 @@ export default {
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
-      editedItem: {},
+      editedItem: {}
     }
   },
-  mounted() {
-    !this.str_id ? this.getStores() : this.getStoreBranches()
+  created() {
+    this.getAccounts()
   },
   methods: {
-    async getStores() {
+    async getAccounts() {
       let varToken = this.$session.get('tokenSession')
-      config.headers.Authorization = 'Bearer ' + varToken
+      this.config.headers.Authorization = 'Bearer ' + varToken
 
-      console.log(this.$route.params.id);
-      let userId = this.$session.get('user_id')
       this.bankAccounts = []
       let bankAccounts = [] 
-      axios
-        .get('http://auth.malllikeu.com/api/accounts/' + userId, config)
-        .then((response) => {
-          this.bankAccounts = this.bankAccounts.concat(response.data)
-          console.log(this.bankAccounts);
-          bankAccounts = bankAccounts.concat(response.data)
-        })
-        .catch((error) => {
-          if (error.response) {
-            switch (error.response.status) {
-              case 401:
-              case 402:
-                break
-              default:
-            }
-          }
-        })
-        .finally(() => (this.loading = false))
-    },
-    async getStoreBranches() {
-      let varToken = this.$session.get('tokenSession')
-      config.headers.Authorization = 'Bearer ' + varToken
-
-      this.bankAccounts = []
-      let bankAccounts = []
-      axios
-        .get('http://auth.malllikeu.com/api/accounts/' + this.str_id, config)
+      axios.get('https://auth.malllikeu.com/api/accounts', this.config)
         .then((response) => {
           this.bankAccounts = this.bankAccounts.concat(response.data)
           bankAccounts = bankAccounts.concat(response.data)
@@ -497,31 +330,26 @@ export default {
       // this.editedItem = item || {}
       this.dialog = !this.dialog
     },
-    async saveItem(
-      id,
-      acco_email,
-      acco_name,
-      acco_nameaccount,
-      acco_numberaccount,
-      acco_phone,
-      user_id
-    ) {
-      axios
-        .put('http://auth.malllikeu.com/api/accounts/' + id, {
-          user_id: user_id,
-          acco_bankname: acco_bankname,
-          acco_email: acco_email,
-          acco_name: acco_name,
-          acco_nameaccount: acco_nameaccount,
-          acco_numberaccount: acco_numberaccount,
-          acco_phone: acco_phone,          
-        })
+    async saveItem(id, acco_name, acco_bankname, acco_numberaccount, acco_nameaccount, acco_phone, acco_email, country_code) {
+      // let nAccount1 = parseInt(acco_numberaccount.substring(0,10))
+      // let nAccount2 = parseInt(acco_numberaccount.substring(10,21))
+      console.log('string length: ', Number(acco_numberaccount))
+      axios.put('https://auth.malllikeu.com/api/accounts/' + id, {
+          user_id: id,
+          name: acco_name,
+          bankname: acco_bankname,
+          numberaccount: Number(acco_numberaccount),
+          nameaccount: acco_nameaccount,
+          phone: parseInt(country_code + acco_phone),          
+          email: acco_email
+        }, this.config)
         .then((response) => {
-          console.log('RESPONSE: ', response.data.message)
-          this.getStores()
+          console.log('RESPONSE: ', response.data)
+          this.getAccounts()
           this.dialog = !this.dialog
         })
         .catch((error) => {
+          console.log('RESPONSE: ', error.response)
           if (error.response) {
             switch (error.response.status) {
               case 422:
@@ -537,10 +365,10 @@ export default {
     },
     async deleteItem(id) {
       axios
-        .delete('http://auth.malllikeu.com/api/accounts/' + id, config)
+        .delete('https://auth.malllikeu.com/api/accounts/' + id, this.config)
         .then((response) => {
-          console.log('RESPONSE: ', response.data.message)
-          this.getStores()
+          console.log('RESPONSE: ', response.data)
+          this.getAccounts()
           this.dialog = !this.dialog
         })
         .catch((error) => {
@@ -557,19 +385,19 @@ export default {
       this.loading = true
     },
     async newItem() {
-      axios
-        .post('http://store.malllikeu.com/api/accounts', {
+      this.user_id = this.$session.get('user_id')
+      axios.post('https://auth.malllikeu.com/api/accounts', {
           user_id: this.user_id,
-          acco_bankname: this.acco_bankname,
-          acco_email: this.acco_email,
-          acco_name: this.acco_name,
-          acco_nameaccount: this.acco_nameaccount,
-          acco_numberaccount: this.acco_numberaccount,
-          acco_phone: this.acco_phone,
-        })
+          name: this.acco_name,
+          bankname: this.acco_bankname,
+          numberaccount: parseInt(this.acco_numberaccount),
+          nameaccount: this.acco_nameaccount,
+          phone: parseInt(this.country_code + this.acco_phone),   
+          email: this.acco_email
+        }, this.config)
         .then((response) => {
-          console.log('RESPONSE: ', response.data.message)
-          this.getStores()
+          console.log('RESPONSE: ', response.data)
+          this.getAccounts()
           this.dialogCreate = !this.dialogCreate
         })
         .catch((error) => {

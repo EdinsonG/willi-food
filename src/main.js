@@ -20,8 +20,9 @@ Vue.config.productionTip = false
 window.axios=axios
 const token = localStorage.getItem('token')
 
-axios.defaults.baseURL = "http://auth.malllikeu.com/api";
+axios.defaults.baseURL = "https://auth.malllikeu.com/api";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 
 const app = new Vue({

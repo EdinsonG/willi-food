@@ -194,7 +194,7 @@ export const protectedRoute = [
       icon: 'local_convenience_store',
       group: 'advance',
     },
-    redirect: '/sucursales/mis-sucursales',
+    redirect: '/sucursales',
     children: [
       {
         path: '/sucursales/mis-sucursales',
@@ -289,6 +289,17 @@ export const protectedRoute = [
           type: route.query.type,
         }),
         component: () => import(/* webpackChunkName: "PurchaseOrders" */ '@/views/PurchaseOrders.vue'),
+      },
+      {
+        path: '/gestion-de-ventas/personalización-payforU',
+        name: 'PayforUcustomization',
+        meta: {
+          title: 'Personalización de PayforU',
+        },
+        props: (route) => ({
+          type: route.query.type,
+        }),
+        component: () => import(/* webpackChunkName: "PayforUcustomization" */ '@/views/PayforUcustomization.vue'),
       },
       {
         path: '/gestion-de-ventas/pagos-por-plataforma',

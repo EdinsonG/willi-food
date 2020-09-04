@@ -59,7 +59,7 @@
                               </tr>
                               <tr>
                                 <td class="font-weight-medium ">Cliente:</td>
-                                <td>Lorem Ipsum</td>
+                                <td></td>
                               </tr>
                             </tbody>
                           </template>
@@ -73,15 +73,15 @@
                             <tbody >
                               <tr>
                                 <td class="font-weight-medium col-1">Fecha:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.invo_date}}</td>
                               </tr>
                               <tr>
                                 <td class="font-weight-medium">Nro. Orden:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.order_id}}</td>
                               </tr>
                               <tr>
                                 <td class="font-weight-medium">Estatus:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.status_orde}}</td>
                               </tr>
                             </tbody>
                           </template>
@@ -114,9 +114,9 @@
                             <tbody >
                               <tr>
                                 <td class="font-weight-medium col-1">Inicia:</td>
-                                <td></td>
+                                <td>{{viewItem.invoice.invo_stardate}}</td>
                                 <td class="font-weight-medium col-1">Finaliza:</td>
-                                <td class=""></td>
+                                <td>{{viewItem.invoice.invo_enddate}}</td>
                               </tr>
                             </tbody>
                           </template>
@@ -142,18 +142,11 @@
                               </thead>
                             <tbody >
                               <tr>
-                                <td>1</td>
+                                <td>{{viewItem.invoice.order.items[0].id}}</td>
                                 <td>Lorem Ipsum</td>
-                                <td>1</td>
-                                <td>Lorem Ipsum</td>
-                                <td>Lorem Ipsum</td>
-                              </tr>
-                              <tr>
-                                <td>1</td>
-                                <td>Lorem Ipsum</td>
-                                <td>1</td>
-                                <td>Lorem Ipsum</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.order.items[0].item_quantity}}</td>
+                                <td>{{viewItem.invoice.order.items[0].item_price}}</td>
+                                <td>{{viewItem.invoice.order.items[0].item_price}}</td>
                               </tr>
                             </tbody>
                           </template>
@@ -166,7 +159,7 @@
                     <v-row no-gutters>
                       <v-col cols="12" sm="6" >
                         <div class="font-weight-medium">Comentarios</div>
-                        <p class="grey--text text-caption border-top-gray pt-5">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it?</p>
+                        <p class="grey--text text-caption border-top-gray pt-5">Ninguno</p>
                       </v-col>
                       <v-spacer></v-spacer>
 
@@ -176,19 +169,19 @@
                             <tbody >
                               <tr>
                                 <td class="font-weight-medium">Subtotal:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.invo_subtotal}}</td>
                               </tr>
                               <tr>
                                 <td class="font-weight-medium">Impuesto:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.invo_tax}}</td>
                               </tr>
                               <tr>
                                 <td class="font-weight-medium">Descuento:</td>
-                                <td>Lorem Ipsum</td>
+                                <td>{{viewItem.invoice.invo_discount}}</td>
                               </tr>
                               <tr>
                                 <td class="font-weight-medium">Total:</td>
-                                <td>t</td>
+                                <td>{{viewItem.invoice.invo_total}}</td>
                               </tr>
                             </tbody>
                           </template>
@@ -212,7 +205,7 @@
               <v-data-table
                 :headers="fields"
                 :search="search"
-                :items="Services"
+                :items="services"
                 class="elevation-1 d-print-none"
                 item-key="name"
                 loading="true"
@@ -222,7 +215,7 @@
                 <template v-slot:[`item.details`]="{ item }">
                   <div class="text-truncate" style="width: 180px">{{item.Details}}</div>
                 </template>
-                <template v-slot:[`item.status_orde`]="{ item }">
+                <!-- <template v-slot:[`item.status_orde`]="{ item }">
                   <span v-if="item.orde_status === 'pending'">
                     <v-avatar left>
                       <v-icon :class="getColor(item.orde_status)">mdi-alert-circle-outline</v-icon>
@@ -248,7 +241,7 @@
                     {{ item.status_orde }}
                   </span>
                 </template>
-                <!-- <template v-slot:item.url="{ item }">
+                <template v-slot:item.url="{ item }">
                   <div class="text-truncate" style="width: 180px">
                     <a :href="item.URL" target="_new">{{item.URL}}</a>
                   </div>
@@ -278,7 +271,6 @@
 </template>
 
 <script>
-
 var config = {
   headers: {
     "Accept": 'application/json',
@@ -287,12 +279,12 @@ var config = {
 }
 import axios from 'axios'
 
-const Services = []
+const services = []
 
 export default {
   data() {
     return {
-      Services: Services,
+      services: services,
       flow: '',
       search: '',
 
@@ -315,63 +307,18 @@ export default {
       orde_deliverydate: '',
       orde_deliverynumber: '',
       orde_deliverycompany: '',
-      orde_deliveryQR: '',
-      orde_comment: '',
+      invoice: '',
+      invo_comments: '',
 
       isValidEdit: true,
       dialogView: false,
       loading: false,
+      dialog: false,
       status: false,
       ordedate: false,
       deliverydate: false,
       text: false,
-
-      rules: {
-        curr_id: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => Number.isInteger(Number(v)) || 'Este campo solo permite números',
-        ],
-        date: [(v) => !!v || 'Este campo es requerido'],
-        status: [(v) => !!v || 'Este campo es requerido'],
-        subtotal: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
-          (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
-        ],
-        tax: [(v) => !!v || 'Este campo es requerido', (v) => !isNaN(Number(v)) || 'Este campo solo permite números'],
-        deliverycost: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
-        ],
-        deliverytip: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
-        ],
-        discount: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => !isNaN(Number(v)) || 'Este campo solo permite números',
-        ],
-        total: [(v) => !!v || 'Este campo es requerido', (v) => !isNaN(Number(v)) || 'Este campo solo permite números'],
-        type: [(v) => !!v || 'Este campo es requerido'],
-        deliverystatus: [(v) => !!v || 'Este campo es requerido'],
-        deliverydate: [(v) => !!v || 'Este campo es requerido'],
-        deliverynumber: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => Number.isInteger(Number(v)) || 'Este campo solo permite números',
-        ],
-        deliverycompany: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 100 || 'El campo debe tener menos de 100 caracteres.',
-        ],
-        deliveryQR: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
-        ],
-        comment: [
-          (v) => !!v || 'Este campo es requerido',
-          (v) => v.length <= 255 || 'El campo debe tener menos de 255 caracteres.',
-        ],
-      },
+      
       selectEstatus: [
         { code: 'pending', name: 'Pendiente' },
         { code: 'to be approved', name: 'Para ser aprobado' },
@@ -392,7 +339,7 @@ export default {
       fields: [
         {
           text: 'Nro',
-          value: 'id',
+          value: 'invoice.order_id',
         },
         {
           text: 'Plataforma',
@@ -403,14 +350,18 @@ export default {
           value: 'status_orde',
         },
         {
-          text: 'Inicio y Fin',
-          value: 'invo_stardate | invo_enddate',
+          text: 'Inicio',
+          value: 'invoice.invo_stardate',
+        },
+        {
+          text: 'Fin',
+          value: 'invoice.invo_enddate',
         },
         { text: 'Acción', value: 'action', sortable: false, align: 'right' },
       ],
       editedItem: {},
       viewItem: {},
-      userId: this.$session.get('user_id'),
+      userId: this.$session.get('user_id')
     }
   },
   created() {
@@ -419,18 +370,35 @@ export default {
   methods: {
     async getServices() {
       let varToken = this.$session.get('tokenSession')
-      config.headers.Authorization = 'Bearer' + varToken
-
+      config.headers.Authorization = 'Bearer ' + varToken
+      
       let userId = this.$session.get('user_id')
-      this.Services = []
-      let Services = []
+      this.services = []
+      let services = [] 
       axios
-        .get('https://cartqa.likeugroup.com/api/order-detail/invoice/1', config)
+        .get('https://cartqa.likeugroup.com/api/order-detail/invoice/' + userId, config)
         .then((response) => {
-          this.Services = this.Services.concat(response.data.services)
-          Services = Services.concat(response.data.services)
-          console.log(this.Services);
-          console.log(userId);
+          this.services = this.services.concat(response.data)
+          console.log(response.data);
+          services = services.concat(response.data)
+          services.map(function(x) {
+            let langOrder
+            switch (x.invoice.order.orde_status) {
+              case 'pending':
+                langOrder = 'Pendiente'
+                break
+              case 'to be approved':
+                langOrder = 'Para ser aprobado'
+                break
+              case 'approved':
+                langOrder = 'Aprobado'
+                break
+              case 'canceled':
+                langOrder = 'Cancelado'
+                break
+            }
+            x.status_orde = langOrder
+          })
         })
         .catch((error) => {
           if (error.response) {
@@ -451,7 +419,6 @@ export default {
       this.dialogView = !this.dialogView
     },
 
-
     getColor(status_orde) {
       if (status_orde == 'pending') return 'orange--text'
       else if (status_orde == 'to be approved') return 'purple--text'
@@ -461,5 +428,3 @@ export default {
   },
 }
 </script>
-
-

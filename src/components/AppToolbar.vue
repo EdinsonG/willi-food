@@ -149,7 +149,7 @@ export default {
       let varToken = this.$session.get('tokenSession')
       config.headers.Authorization = 'Bearer ' + varToken
       axios
-        .get('http://auth.malllikeu.com/api/auth/logout', config)
+        .get('https://authqa.likeugroup.com/api/auth/logout', config)
         .then((response) => {
           response
           

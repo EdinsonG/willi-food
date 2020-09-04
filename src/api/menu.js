@@ -42,6 +42,11 @@ const Menu = [
         text: 'Mi ubicación',
         disabled: 'disabled'
       },
+      {
+        //to: '/mi-perfil/vehiculos',
+        text: 'Vehículos',
+        disabled: 'disabled'
+      },
     ],
   },
 
@@ -193,12 +198,16 @@ const Menu = [
         disabled: 'disabled'
       },
       {
-        to: '/gestion-de-ventas/pagos-por-plataforma',
+        to: '/gestion-de-ventas/personalización-payforU',
+        text: 'Personalización de PayforU'
+      },
+      {
+        //to: '/gestion-de-ventas/pagos-por-plataforma',
         text: 'Pagos por plataforma'
       },
       {
         //to: '/gestion-de-ventas/repartidores',
-        disabled: true,
+        disabled: 'disabled',
         text: 'Repartidores'
       },
     ],
@@ -206,10 +215,39 @@ const Menu = [
 
   {
     text: 'Repartidores',
-    //to: '/repartidores',
+    group: 'repartidores',
+    to: '/repartidores',
     icon: 'supervisor_account',
-    disabled: 'disabled',
+    title: 'Disabled',
+    disabled: 'true',
+    children: [{
+        //to: '/repartidores/repartidores',
+        text: 'Repartidores'
+      },
+      {
+        //to: '/repartidores/asociacion-de-repartidores',
+        text: 'Asociación de repartidores',
+        disabled: 'disabled',
+        badge: 'new'
+      },
+      {
+        //to: '/repartidores/ordenes-cercanas-a-mi',
+        text: 'Ordenes cercanas a mi',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/repartidores/mis-ordeness ',
+        text: 'Mis Ordenes',
+        disabled: 'disabled'
+      },
+      {
+        //to: '/repartidores/relacion-de-viajes',
+        text: 'Relación de viajes',
+        disabled: 'disabled'
+      }
+    ],
   },
+
   // {
   //   text: 'Cuentas',
   //   to: '/cuentas',

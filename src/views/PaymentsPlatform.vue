@@ -211,6 +211,7 @@
                     {{ item.status_orde }}
                   </span>
                 </template>
+
                 <!-- <template v-slot:item.url="{ item }">
                   <div class="text-truncate" style="width: 180px">
                     <a :href="item.URL" target="_new">{{item.URL}}</a>

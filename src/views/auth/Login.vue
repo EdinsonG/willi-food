@@ -102,7 +102,7 @@ export default {
   methods: {
     getLogin() {
       axios
-        .post('http://auth.malllikeu.com/api/auth/login', {
+        .post('https://authqa.likeugroup.com/api/auth/login', {
           email: this.model.email,
           password: this.model.password,
         })
@@ -136,7 +136,7 @@ export default {
       let varToken = this.$session.get('tokenSession')
       config.headers.Authorization = 'Bearer ' + varToken
       axios
-        .get('http://auth.malllikeu.com/api/auth/user', config)
+        .get('https://authqa.likeugroup.com/api/auth/user', config)
         .then((response) => {
           this.$session.set('user_id', response.data.id)
           this.$router.push('/estadisticas')
